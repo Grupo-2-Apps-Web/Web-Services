@@ -34,6 +34,6 @@ public class Expense
      
     public int TripId { get; set; }
     
-    public Trip Trips { get; set; }
+    public Trip Trip { get; }
 
 }

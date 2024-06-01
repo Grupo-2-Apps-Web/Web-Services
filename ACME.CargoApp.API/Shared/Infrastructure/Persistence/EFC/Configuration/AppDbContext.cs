@@ -89,10 +89,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasForeignKey(t => t.VehicleId)
             .HasPrincipalKey(v => v.Id);
         
+        
+        //Expenses Table Relationships
         builder.Entity<Expense>()
-            .HasOne(e => e.Trips)
+            .HasOne(e => e.Trip)
             .WithOne(t => t.Expense)
-            .HasForeignKey<Expense>(e => e.Id);
+            .HasForeignKey<Expense>(e => e.TripId)
+            .HasPrincipalKey<Trip>(t => t.Id);
         
         // User Context
         // ...
