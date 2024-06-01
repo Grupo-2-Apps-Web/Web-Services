@@ -7,6 +7,11 @@ using ACME.CargoApp.API.Shared.Domain.Repositories;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using ACME.CargoApp.API.Shared.Interfaces.ASP.Configuration;
+using ACME.CargoApp.API.User.Application.Internal.CommandServices;
+using ACME.CargoApp.API.User.Application.Internal.QueryServices;
+using ACME.CargoApp.API.User.Domain.Repositories;
+using ACME.CargoApp.API.User.Domain.Services;
+using ACME.CargoApp.API.User.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -81,7 +86,12 @@ builder.Services.AddScoped<IDriverQueryService, DriverQueryService>();
 builder.Services.AddScoped<IVehicleQueryService, VehicleQueryService>();
 
 // User Bounded Context Injection Configuration
-// ...
+// Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+// Commands
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+// Queries
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 
 var app = builder.Build();
 

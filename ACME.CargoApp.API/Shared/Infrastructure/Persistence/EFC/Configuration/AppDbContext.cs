@@ -38,7 +38,32 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Vehicle>().Property(v => v.Volume).IsRequired().HasPrecision(6, 2);
         
         // User Context
-        // ...
+        
+        //User Table
+        builder.Entity<User.Domain.Model.Aggregates.User>().HasKey(u => u.Id);
+        builder.Entity<User.Domain.Model.Aggregates.User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<User.Domain.Model.Aggregates.User>().OwnsOne(u => u.UserData,
+            d =>
+            {
+                d.WithOwner().HasForeignKey("Id");
+                d.Property(u => u.Name).HasColumnName("Name");
+                d.Property(u => u.Phone).HasColumnName("Phone");
+                d.Property(u => u.Ruc).HasColumnName("Ruc");
+                d.Property(u => u.Address).HasColumnName("Address");
+            });
+        builder.Entity<User.Domain.Model.Aggregates.User>().OwnsOne(u => u.UserAuthentication,
+            a =>
+            {
+                a.WithOwner().HasForeignKey("Id");
+                a.Property(u => u.Email).HasColumnName("Email");
+                a.Property(u => u.Password).HasColumnName("Password");
+            });
+        builder.Entity<User.Domain.Model.Aggregates.User>().OwnsOne(u => u.SubscriptionPlan,
+            s =>
+            {
+                s.WithOwner().HasForeignKey("Id");
+                s.Property(u => u.Subscription).HasColumnName("Subscription");
+            });
         
         // Apply SnakeCase Naming Convention
         builder.UseSnakeCaseWithPluralizedTableNamingConvention();
