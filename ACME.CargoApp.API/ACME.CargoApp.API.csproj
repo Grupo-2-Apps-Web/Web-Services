@@ -22,11 +22,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Registration\Application\Internal\" />
-      <Folder Include="Registration\Domain\Model\" />
-      <Folder Include="Registration\Infrastructure\Persistence\EFC\Repositories\" />
-      <Folder Include="Registration\Interfaces\REST\Resources\" />
-      <Folder Include="Registration\Interfaces\REST\Transform\" />
+      <Folder Include="Registration\Domain\Model\Aggregates\" />
+      <Folder Include="Registration\Domain\Model\ValueObjects\" />
       <Folder Include="User\Application\Internal\" />
       <Folder Include="User\Domain\Model\" />
       <Folder Include="User\Infrastructure\Persistence\EFC\Repositories\" />

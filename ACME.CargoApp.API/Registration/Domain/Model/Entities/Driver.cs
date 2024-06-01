@@ -1,0 +1,26 @@
+﻿namespace ACME.CargoApp.API.Registration.Domain.Model.Entities;
+
+public class Driver
+{
+    public Driver()
+    {
+        Name = string.Empty;
+        Dni = string.Empty;
+        License = string.Empty;
+        ContactNumber = string.Empty;
+    }
+    
+    public Driver(string name, string dni, string license, string contactNumber)
+    {
+        Name = name;
+        Dni = dni;
+        License = license;
+        ContactNumber = contactNumber;
+    }
+    
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Dni { get; set; }
+    public string License { get; set; }
+    public string ContactNumber { get; set; }
+}
