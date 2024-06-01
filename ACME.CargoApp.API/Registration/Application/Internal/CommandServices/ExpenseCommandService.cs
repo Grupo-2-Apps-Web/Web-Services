@@ -1,0 +1,41 @@
+﻿ using ACME.CargoApp.API.Registration.Domain.Model.Commands;
+using ACME.CargoApp.API.Registration.Domain.Model.Entities;
+using ACME.CargoApp.API.Registration.Domain.Repositories;
+using ACME.CargoApp.API.Registration.Domain.Services;
+using ACME.CargoApp.API.Shared.Domain.Repositories;
+
+namespace ACME.CargoApp.API.Registration.Application.Internal.CommandServices;
+
+public class ExpenseCommandService(IExpenseRepository expenseRepository ,ITripRepository tripRepository, IUnitOfWork unitOfWork)
+    : IExpenseCommandService
+{
+    public async Task<Expense?> Handle(CreateExpenseCommand command)
+    {
+        var expense = new Expense(command.FuelAmount, command.FuelDescription, command.ViaticsAmount, command.ViaticsDescription, command.TollsAmount, command.TollsDescription, command.TripId);
+        await expenseRepository.AddAsync(expense);
+        await unitOfWork.CompleteAsync();
+        return expense;
+    }
+    
+    public async Task<Expense?> Handle(UpdateExpenseCommand command)
+    {
+        var expense = await expenseRepository.FindByIdAsync(command.TripId);
+        if (expense == null)
+        {
+            return null;
+        }
+        //Update the expense information
+        expense.ViaticsAmount = command.ViaticsAmount;
+        expense.ViaticsDescription = command.ViaticsDescription;
+        expense.FuelAmount = command.FuelAmount;
+        expense.FuelDescription = command.FuelDescription;
+        expense.TollsAmount = command.TollsAmount;
+        expense.TollsDescription = command.TollsDescription;
+        
+        await unitOfWork.CompleteAsync();
+        return expense;
+    }
+    
+    
+}
+ 

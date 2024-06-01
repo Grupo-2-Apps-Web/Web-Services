@@ -73,14 +73,17 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IDriverRepository, DriverRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 builder.Services.AddScoped<ITripRepository, TripRepository>();
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
 //Commands
 builder.Services.AddScoped<IDriverCommandService, DriverCommandService>();
 builder.Services.AddScoped<IVehicleCommandService, VehicleCommandService>();
 builder.Services.AddScoped<ITripCommandService, TripCommandService>();
+builder.Services.AddScoped<IExpenseCommandService, ExpenseCommandService>();
 //Queries
 builder.Services.AddScoped<IDriverQueryService, DriverQueryService>();
 builder.Services.AddScoped<IVehicleQueryService, VehicleQueryService>();
 builder.Services.AddScoped<ITripQueryService, TripQueryService>();
+builder.Services.AddScoped<IExpenseQueryService, ExpenseQueryService>();
 // User Bounded Context Injection Configuration
 // ...
 

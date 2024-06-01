@@ -65,6 +65,17 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 c.Property(p => p.UnloadDate).HasColumnName("UnloadDate");
             });
         
+        //Expense Table
+        builder.Entity<Expense>().HasKey(e => e.Id);
+        builder.Entity<Expense>().Property(e => e.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Expense>().Property(e => e.FuelAmount).IsRequired();
+        builder.Entity<Expense>().Property(e => e.FuelDescription).IsRequired();
+        builder.Entity<Expense>().Property(e => e.ViaticsAmount).IsRequired();
+        builder.Entity<Expense>().Property(e => e.ViaticsDescription).IsRequired();
+        builder.Entity<Expense>().Property(e => e.TollsAmount).IsRequired();
+        builder.Entity<Expense>().Property(e => e.TollsDescription).IsRequired();
+         
+        
         //Trips Table Relationships
         builder.Entity<Trip>()
             .HasOne(t => t.Driver)
@@ -77,6 +88,11 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .WithMany(v => v.Trips)
             .HasForeignKey(t => t.VehicleId)
             .HasPrincipalKey(v => v.Id);
+        
+        builder.Entity<Expense>()
+            .HasOne(e => e.Trips)
+            .WithOne(t => t.Expense)
+            .HasForeignKey<Expense>(e => e.Id);
         
         // User Context
         // ...

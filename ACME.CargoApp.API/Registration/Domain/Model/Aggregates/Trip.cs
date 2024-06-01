@@ -42,6 +42,10 @@ public class Trip
     
     public Driver Driver { get; internal set; }
     public Vehicle Vehicle { get; internal set; }
+    
+    public Expense Expense { get; internal set; }
     public int DriverId { get; internal set; }
     public int VehicleId { get; internal set; }
+    
+    
 }
