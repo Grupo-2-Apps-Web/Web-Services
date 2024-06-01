@@ -1,0 +1,29 @@
+﻿namespace ACME.CargoApp.API.Registration.Domain.Model.Entities;
+
+public class Vehicle
+{
+    public Vehicle()
+    {
+        Model = string.Empty;
+        Plate = string.Empty;
+        TractorPlate = string.Empty;
+        MaxLoad = 0;
+        Volume = 0;
+    }
+    
+    public Vehicle(string model, string plate, string tractorPlate, float maxLoad, float volume)
+    {
+        Model = model;
+        Plate = plate;
+        TractorPlate = tractorPlate;
+        MaxLoad = maxLoad;
+        Volume = volume;
+    }
+    
+    public int Id { get; set; }
+    public string Model { get; set; }
+    public string Plate { get; set; }
+    public string TractorPlate { get; set; }
+    public float MaxLoad { get; set; }
+    public float Volume { get; set; }
+}
