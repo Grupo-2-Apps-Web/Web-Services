@@ -45,7 +45,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             n =>
             {
                 n.WithOwner().HasForeignKey("Id");
-                n.Property(p => p.PersonName).HasColumnName("Name");
+                n.Property(p => p.TripName).HasColumnName("Name");
             });
         builder.Entity<Trip>().OwnsOne(p => p.CargoData,
             c =>
