@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 
 builder.Services.AddControllers( options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
@@ -73,13 +72,15 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //Repositories
 builder.Services.AddScoped<IDriverRepository, DriverRepository>();
 builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<ITripRepository, TripRepository>();
 //Commands
 builder.Services.AddScoped<IDriverCommandService, DriverCommandService>();
 builder.Services.AddScoped<IVehicleCommandService, VehicleCommandService>();
+builder.Services.AddScoped<ITripCommandService, TripCommandService>();
 //Queries
 builder.Services.AddScoped<IDriverQueryService, DriverQueryService>();
 builder.Services.AddScoped<IVehicleQueryService, VehicleQueryService>();
-
+builder.Services.AddScoped<ITripQueryService, TripQueryService>();
 // User Bounded Context Injection Configuration
 // ...
 
