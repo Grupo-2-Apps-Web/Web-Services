@@ -90,14 +90,17 @@ builder.Services.AddScoped<IVehicleQueryService, VehicleQueryService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IEntrepreneurRepository, EntrepreneurRepository>();
+builder.Services.AddScoped<IConfigurationRepository, ConfigurationRepository>();
 // Commands
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IClientCommandService, ClientCommandService>();
 builder.Services.AddScoped<IEntrepreneurCommandService, EntrepreneurCommandService>();
+builder.Services.AddScoped<IConfigurationCommandService, ConfigurationCommandService>();
 // Queries
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddScoped<IClientQueryService, ClientQueryService>();
 builder.Services.AddScoped<IEntrepreneurQueryService, EntrepreneurQueryService>();
+builder.Services.AddScoped<IConfigurationQueryService, ConfigurationQueryService>();
 
 var app = builder.Build();
 

@@ -36,4 +36,6 @@ public class User
     public Client Client { get; internal set; }
     
     public Entrepreneur Entrepreneur { get; internal set; }
+    
+    public Configuration Configuration { get; internal set; }
 }

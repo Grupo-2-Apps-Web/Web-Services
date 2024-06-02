@@ -91,6 +91,23 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasForeignKey<Entrepreneur>(e => e.UserId)
             .HasPrincipalKey<User.Domain.Model.Aggregates.User>(u => u.Id);
         
+        // Configuration table
+        
+       builder.Entity<User.Domain.Model.Entities.Configuration>().HasKey(c => c.Id);
+       builder.Entity<User.Domain.Model.Entities.Configuration>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
+       builder.Entity<User.Domain.Model.Entities.Configuration>().Property(c => c.Theme).IsRequired().HasMaxLength(100);
+       builder.Entity<User.Domain.Model.Entities.Configuration>().Property(c => c.View).IsRequired().HasMaxLength(100);
+       builder.Entity<User.Domain.Model.Entities.Configuration>().Property(c => c.AllowDataCollection).IsRequired();
+       builder.Entity<User.Domain.Model.Entities.Configuration>().Property(c => c.UpdateDataSharing).IsRequired();
+        
+       // Configuration table relationships
+       
+       builder.Entity<User.Domain.Model.Entities.Configuration>()
+           .HasOne(c => c.User)
+           .WithOne(u => u.Configuration)
+           .HasForeignKey<User.Domain.Model.Entities.Configuration>(c => c.UserId)
+           .HasPrincipalKey<User.Domain.Model.Aggregates.User>(u => u.Id);
+        
         // Apply SnakeCase Naming Convention
         builder.UseSnakeCaseWithPluralizedTableNamingConvention();
     }
