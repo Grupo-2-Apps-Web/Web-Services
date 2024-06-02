@@ -87,6 +87,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Alert>().Property(a => a.Description).IsRequired();
         builder.Entity<Alert>().Property(a => a.Date).IsRequired();
         
+        //OngoingTrip Table
+        builder.Entity<OngoingTrip>().HasKey(ot => ot.Id);
+        builder.Entity<OngoingTrip>().Property(ot => ot.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<OngoingTrip>().Property(ot => ot.Latitude).IsRequired();
+        builder.Entity<OngoingTrip>().Property(ot => ot.Longitude).IsRequired();
+        builder.Entity<OngoingTrip>().Property(ot => ot.Speed).IsRequired();
+        builder.Entity<OngoingTrip>().Property(ot => ot.Distance).IsRequired();
+        
         
         
         //Trips Table Relationships
@@ -115,6 +123,20 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasOne(ev => ev.Trip)
             .WithOne(t => t.Evidence)
             .HasForeignKey<Evidence>(ev => ev.TripId)
+            .HasPrincipalKey<Trip>(t => t.Id);
+        
+        //Alerts Table Relationships
+        builder.Entity<Alert>()
+            .HasOne(a => a.Trip)
+            .WithOne(t => t.Alert)
+            .HasForeignKey<Alert>(a => a.TripId)
+            .HasPrincipalKey<Trip>(t => t.Id);
+        
+        //OngoingTrips Table Relationships
+        builder.Entity<OngoingTrip>()
+            .HasOne(ot => ot.Trip)
+            .WithOne(t => t.OngoingTrip)
+            .HasForeignKey<OngoingTrip>(ot => ot.TripId)
             .HasPrincipalKey<Trip>(t => t.Id);
         
         // User Context

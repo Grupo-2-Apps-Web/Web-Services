@@ -48,5 +48,6 @@ public class Trip
     public Expense Expense { get; internal set; }
     public Evidence Evidence { get; internal set; }
     public Alert Alert { get; internal set; }
+    public OngoingTrip OngoingTrip { get; internal set; }
     
 }
