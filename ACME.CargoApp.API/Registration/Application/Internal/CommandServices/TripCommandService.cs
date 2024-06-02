@@ -4,10 +4,13 @@ using ACME.CargoApp.API.Registration.Domain.Model.ValueObjects;
 using ACME.CargoApp.API.Registration.Domain.Repositories;
 using ACME.CargoApp.API.Registration.Domain.Services;
 using ACME.CargoApp.API.Shared.Domain.Repositories;
+using ACME.CargoApp.API.User.Domain.Repositories;
 
 namespace ACME.CargoApp.API.Registration.Application.Internal.CommandServices;
 
-public class TripCommandService(ITripRepository tripRepository, IDriverRepository driverRepository, IVehicleRepository vehicleRepository, IUnitOfWork unitOfWork)
+public class TripCommandService(ITripRepository tripRepository, 
+    IDriverRepository driverRepository, IVehicleRepository vehicleRepository, IClientRepository clientRepository, IEntrepreneurRepository entrepreneurRepository,
+    IUnitOfWork unitOfWork)
     : ITripCommandService
 {
     public async Task<Trip?> Handle(CreateTripCommand command)
@@ -24,8 +27,21 @@ public class TripCommandService(ITripRepository tripRepository, IDriverRepositor
         {
             throw new ArgumentException("VehicleId not found.");
         }
+        
+        var client = await clientRepository.FindByIdAsync(command.ClientId);
+        if (client == null)
+        {
+            throw new ArgumentException("ClientId not found.");
+        }
+        
+        var entrepreneur = await entrepreneurRepository.FindByIdAsync(command.EntrepreneurId);
+        if (entrepreneur == null)
+        {
+            throw new ArgumentException("EntrepreneurId not found.");
+        }
+        
         //Create the trip
-        var trip = new Trip(command, driver, vehicle);
+        var trip = new Trip(command, driver, vehicle, client, entrepreneur);
         try
         { 
             await tripRepository.AddAsync(trip);
@@ -56,6 +72,18 @@ public async Task<Trip?> Handle(UpdateTripCommand command)
             throw new ArgumentException("VehicleId not found.");
         }
         
+        var client = await clientRepository.FindByIdAsync(command.ClientId);
+        if (client == null)
+        {
+            throw new ArgumentException("ClientId not found.");
+        }
+        
+        var entrepreneur = await entrepreneurRepository.FindByIdAsync(command.EntrepreneurId);
+        if (entrepreneur == null)
+        {
+            throw new ArgumentException("EntrepreneurId not found.");
+        }
+        
         var trip = await tripRepository.FindByIdAsync(command.TripId);
         if (trip == null)
         {
@@ -67,8 +95,12 @@ public async Task<Trip?> Handle(UpdateTripCommand command)
         trip.TripData = new TripData(command.LoadLocation, command.LoadDate, command.UnloadLocation, command.UnloadDate);
         trip.DriverId = command.DriverId;
         trip.VehicleId = command.VehicleId;
+        trip.ClientId = command.ClientId;
+        trip.EntrepreneurId = command.EntrepreneurId;
         trip.Vehicle = vehicle;
         trip.Driver = driver;
+        trip.Client = client;
+        trip.Entrepreneur = entrepreneur;
         
         await unitOfWork.CompleteAsync();
         return trip;

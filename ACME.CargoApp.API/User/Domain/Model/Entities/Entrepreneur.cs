@@ -1,4 +1,6 @@
-﻿namespace ACME.CargoApp.API.User.Domain.Model.Entities;
+﻿using ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
+
+namespace ACME.CargoApp.API.User.Domain.Model.Entities;
 
 public class Entrepreneur
 {
@@ -16,5 +18,7 @@ public class Entrepreneur
     public int Id { get; set; }
     public Aggregates.User User { get; set; }
     public int UserId { get; set; }
-    public string LogoIma { get; set; } 
+    public string LogoImage { get; set; } 
+    
+    public ICollection<Trip> Trips { get; }
 }

@@ -96,8 +96,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<OngoingTrip>().Property(ot => ot.Speed).IsRequired();
         builder.Entity<OngoingTrip>().Property(ot => ot.Distance).IsRequired();
         
-        
-        
         //Trips Table Relationships
         builder.Entity<Trip>()
             .HasOne(t => t.Driver)
@@ -110,6 +108,18 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .WithMany(v => v.Trips)
             .HasForeignKey(t => t.VehicleId)
             .HasPrincipalKey(v => v.Id);
+        
+        builder.Entity<Trip>()
+            .HasOne(t => t.Client)
+            .WithMany(c => c.Trips)
+            .HasForeignKey(t => t.ClientId)
+            .HasPrincipalKey(c => c.Id);
+        
+        builder.Entity<Trip>()
+            .HasOne(t => t.Entrepreneur)
+            .WithMany(e => e.Trips)
+            .HasForeignKey(t => t.EntrepreneurId)
+            .HasPrincipalKey(e => e.Id);
         
         
         //Expenses Table Relationships
@@ -183,7 +193,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         //Entrepreneur table
         builder.Entity<Entrepreneur>().HasKey(e => e.Id);
         builder.Entity<Entrepreneur>().Property(e => e.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Entity<Entrepreneur>().Property(e => e.LogoIma).IsRequired().HasMaxLength(100);
+        builder.Entity<Entrepreneur>().Property(e => e.LogoImage).IsRequired().HasMaxLength(100);
         
         //Entrepreneur table relationships
 

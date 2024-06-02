@@ -18,7 +18,7 @@ public class EntrepreneurCommandService(IEntrepreneurRepository entrepreneurRepo
         // Create the entrepreneur
         var entrepreneur = new Entrepreneur(command.UserId, user)
         {
-            LogoIma = command.LogoIma
+            LogoImage = command.LogoImage
         };
         try
         {

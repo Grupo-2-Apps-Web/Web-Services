@@ -8,7 +8,7 @@ namespace ACME.CargoApp.API.Registration.Interfaces.REST;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class AlertController(IAlertCommandService alertCommandService, IAlertQueryService alertQueryService)
+public class AlertsController(IAlertCommandService alertCommandService, IAlertQueryService alertQueryService)
     :ControllerBase
 {
     [HttpPost]
