@@ -15,6 +15,17 @@ public class ConfigurationCommandService (IConfigurationRepository configuration
         {
             throw new ArgumentException("UserId not found.");
         }
+        // Validate Theme
+        if (command.Theme != "Dark" && command.Theme != "Light")
+        {
+            throw new ArgumentException("Invalid Theme. Only 'Dark' or 'Light' are allowed.");
+        }
+
+        // Validate View
+        if (command.View != "Grid" && command.View != "List")
+        {
+            throw new ArgumentException("Invalid View. Only 'Grid' or 'List' are allowed.");
+        }
         // Create the configuration
         var configuration = new Configuration(command.UserId, user)
         {
@@ -44,6 +55,18 @@ public class ConfigurationCommandService (IConfigurationRepository configuration
         if (configuration == null)
         {
             return null;
+        }
+        
+        // Validate Theme
+        if (command.Theme != "Dark" && command.Theme != "Light")
+        {
+            throw new ArgumentException("Invalid Theme. Only 'Dark' or 'Light' are allowed.");
+        }
+
+        // Validate View
+        if (command.View != "Grid" && command.View != "List")
+        {
+            throw new ArgumentException("Invalid View. Only 'Grid' or 'List' are allowed.");
         }
         
         // Update the configuration information
