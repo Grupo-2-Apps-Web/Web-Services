@@ -1,6 +1,7 @@
 ﻿using ACME.CargoApp.API.Registration.Domain.Model.Commands;
 using ACME.CargoApp.API.Registration.Domain.Model.Entities;
 using ACME.CargoApp.API.Registration.Domain.Model.ValueObjects;
+using ACME.CargoApp.API.User.Domain.Model.Entities;
 
 namespace ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
 
@@ -13,26 +14,35 @@ public class Trip
         TripData = new TripData();
         Driver = new Driver();
         Vehicle = new Vehicle();
+        Client = new Client();
+        Entrepreneur = new Entrepreneur();
     }
     
     
-    public Trip(string name, string type, int weight, string loadLocation, DateTime loadDate, string unloadLocation, DateTime unloadDate, int driverId, int vehicleId, Driver driver, Vehicle vehicle)
+    public Trip(string name, string type, int weight, string loadLocation, DateTime loadDate, string unloadLocation, DateTime unloadDate, 
+        int driverId, int vehicleId, int clientId, int entrepreneurId, Driver driver, Vehicle vehicle, Client client, Entrepreneur entrepreneur)
     {
         Name = new Name(name);
         CargoData = new CargoData(type, weight);
         TripData = new TripData(loadLocation, loadDate, unloadLocation, unloadDate);
         DriverId = driverId;
         VehicleId = vehicleId;
+        ClientId = clientId;
+        EntrepreneurId = entrepreneurId;
         Driver = driver;
         Vehicle = vehicle;
+        Client = client;
+        Entrepreneur = entrepreneur;
     }
-    public Trip(CreateTripCommand command, Driver driver, Vehicle vehicle)
+    public Trip(CreateTripCommand command, Driver driver, Vehicle vehicle, Client client, Entrepreneur entrepreneur)
     {
         Name = new Name(command.Name);
         CargoData = new CargoData(command.Type, command.Weight);
         TripData = new TripData(command.LoadLocation, command.LoadDate, command.UnloadLocation, command.UnloadDate);
         Driver = driver;
         Vehicle = vehicle;
+        Client = client;
+        Entrepreneur = entrepreneur;
     }
     
     public int Id { get; set; }
@@ -44,6 +54,10 @@ public class Trip
     public Vehicle Vehicle { get; internal set; }
     public int DriverId { get; internal set; }
     public int VehicleId { get; internal set; }
+    public int ClientId { get; internal set; }
+    public int EntrepreneurId { get; internal set; }
+    public Client Client { get; internal set; }
+    public Entrepreneur Entrepreneur { get; internal set; }
     
     public Expense Expense { get; internal set; }
     public Evidence Evidence { get; internal set; }

@@ -8,7 +8,7 @@ namespace ACME.CargoApp.API.Registration.Interfaces.REST;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class OngoingTripController(IOngoingTripCommandService ongoingTripCommandService, IOngoingTripQueryService ongoingTripQueryService)
+public class OngoingTripsController(IOngoingTripCommandService ongoingTripCommandService, IOngoingTripQueryService ongoingTripQueryService)
     :ControllerBase
 {
     [HttpPost]
