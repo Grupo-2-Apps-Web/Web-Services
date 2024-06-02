@@ -11,6 +11,13 @@ public class ExpenseCommandService(IExpenseRepository expenseRepository ,ITripRe
 {
     public async Task<Expense?> Handle(CreateExpenseCommand command)
     {
+        // Additional validation to check if the trip exists
+        var trip = await tripRepository.FindByIdAsync(command.TripId);
+        if (trip == null)
+        {
+            throw new ArgumentException("TripId not found.");
+        }
+
         var expense = new Expense(command.FuelAmount, command.FuelDescription, command.ViaticsAmount, command.ViaticsDescription, command.TollsAmount, command.TollsDescription, command.TripId);
         await expenseRepository.AddAsync(expense);
         await unitOfWork.CompleteAsync();

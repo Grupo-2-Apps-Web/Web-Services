@@ -11,6 +11,13 @@ public class EvidenceCommandService(IEvidenceRepository evidenceRepository ,ITri
 {
     public async Task<Evidence?> Handle(CreateEvidenceCommand command)
     {
+        // Additional validation to check if the trip exists
+        var trip = await tripRepository.FindByIdAsync(command.TripId);
+        if (trip == null)
+        {
+            throw new ArgumentException("TripId not found.");
+        }
+        
         var evidence = new Evidence(command.Link, command.TripId);
         await evidenceRepository.AddAsync(evidence);
         await unitOfWork.CompleteAsync();
