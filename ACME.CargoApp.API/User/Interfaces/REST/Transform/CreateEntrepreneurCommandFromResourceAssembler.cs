@@ -7,6 +7,6 @@ public static class CreateEntrepreneurCommandFromResourceAssembler
 {
     public static CreateEntrepreneurCommand ToCommandFromResource(CreateEntrepreneurResource resource)
     {
-        return new CreateEntrepreneurCommand(resource.UserId, resource.LogoIma);
+        return new CreateEntrepreneurCommand(resource.UserId, resource.LogoImage);
     }
 }
