@@ -89,12 +89,15 @@ builder.Services.AddScoped<IVehicleQueryService, VehicleQueryService>();
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IEntrepreneurRepository, EntrepreneurRepository>();
 // Commands
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IClientCommandService, ClientCommandService>();
+builder.Services.AddScoped<IEntrepreneurCommandService, EntrepreneurCommandService>();
 // Queries
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddScoped<IClientQueryService, ClientQueryService>();
+builder.Services.AddScoped<IEntrepreneurQueryService, EntrepreneurQueryService>();
 
 var app = builder.Build();
 

@@ -34,4 +34,6 @@ public class User
     public SubscriptionPlan SubscriptionPlan { get; internal set; }
     
     public Client Client { get; internal set; }
+    
+    public Entrepreneur Entrepreneur { get; internal set; }
 }

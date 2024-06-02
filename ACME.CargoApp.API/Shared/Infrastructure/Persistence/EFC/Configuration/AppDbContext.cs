@@ -77,6 +77,19 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasForeignKey<Client>(c => c.UserId)
             .HasPrincipalKey<User.Domain.Model.Aggregates.User>(u => u.Id);
         
+       
+        //Entrepreneur table
+        builder.Entity<Entrepreneur>().HasKey(e => e.Id);
+        builder.Entity<Entrepreneur>().Property(e => e.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Entrepreneur>().Property(e => e.LogoIma).IsRequired().HasMaxLength(100);
+        
+        //Entrepreneur table relationships
+
+        builder.Entity<Entrepreneur>()
+            .HasOne(e => e.User)
+            .WithOne(u => u.Entrepreneur)
+            .HasForeignKey<Entrepreneur>(e => e.UserId)
+            .HasPrincipalKey<User.Domain.Model.Aggregates.User>(u => u.Id);
         
         // Apply SnakeCase Naming Convention
         builder.UseSnakeCaseWithPluralizedTableNamingConvention();
