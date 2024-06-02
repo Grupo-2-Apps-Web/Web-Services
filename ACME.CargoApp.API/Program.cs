@@ -88,10 +88,13 @@ builder.Services.AddScoped<IVehicleQueryService, VehicleQueryService>();
 // User Bounded Context Injection Configuration
 // Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
 // Commands
 builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IClientCommandService, ClientCommandService>();
 // Queries
 builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<IClientQueryService, ClientQueryService>();
 
 var app = builder.Build();
 

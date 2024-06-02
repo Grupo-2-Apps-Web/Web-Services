@@ -10,19 +10,38 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
 {
     public async Task<Domain.Model.Aggregates.User?> Handle(CreateUserCommand command)
     {
-        var user = new Domain.Model.Aggregates.User(command.Name, command.Phone, command.Ruc, command.Address, command.Email, command.Password, command.Subscription);
-        await userRepository.AddAsync(user);
-        await unitOfWork.CompleteAsync();
-        return user;
+        if (command.Subscription != "Basic" && command.Subscription != "Premium")
+        {
+            throw new ArgumentException("Subscription is not valid.");
+        }
+        try
+        {
+            var user = new Domain.Model.Aggregates.User(command.Name, command.Phone, command.Ruc, command.Address,
+                command.Email, command.Password, command.Subscription);
+            await userRepository.AddAsync(user);
+            await unitOfWork.CompleteAsync();
+            return user;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"An error occurred while creating the user: {e.Message}");
+            return null;
+        }
     }
     
     public async Task<Domain.Model.Aggregates.User?> Handle(UpdateUserCommand command)
     {
+        if (command.Subscription != "Basic" && command.Subscription != "Premium")
+        {
+            throw new ArgumentException("Subscription is not valid.");
+        }
+        
         var user = await userRepository.FindByIdAsync(command.UserId);
         if (user == null)
         {
             return null;
         }
+        
         // Update the user information
         user.UserData = new UserData(command.Name, command.Phone, command.Ruc, command.Address);
         user.UserAuthentication = new UserAuthentication(command.Email, command.Password);

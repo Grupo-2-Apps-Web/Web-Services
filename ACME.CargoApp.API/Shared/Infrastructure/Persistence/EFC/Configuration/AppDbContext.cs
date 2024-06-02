@@ -1,6 +1,7 @@
 ﻿
 using ACME.CargoApp.API.Registration.Domain.Model.Entities;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using ACME.CargoApp.API.User.Domain.Model.Entities;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -64,6 +65,18 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 s.WithOwner().HasForeignKey("Id");
                 s.Property(u => u.Subscription).HasColumnName("Subscription");
             });
+        
+        //Client table
+        builder.Entity<Client>().HasKey(c => c.Id);
+        builder.Entity<Client>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
+        
+        //Client table relationships
+        builder.Entity<Client>()
+            .HasOne(c => c.User)
+            .WithOne(u => u.Client)
+            .HasForeignKey<Client>(c => c.UserId)
+            .HasPrincipalKey<User.Domain.Model.Aggregates.User>(u => u.Id);
+        
         
         // Apply SnakeCase Naming Convention
         builder.UseSnakeCaseWithPluralizedTableNamingConvention();

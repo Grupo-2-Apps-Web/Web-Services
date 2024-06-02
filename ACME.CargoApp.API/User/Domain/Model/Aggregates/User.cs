@@ -1,4 +1,5 @@
 ﻿using ACME.CargoApp.API.User.Domain.Model.Commands;
+using ACME.CargoApp.API.User.Domain.Model.Entities;
 using ACME.CargoApp.API.User.Domain.Model.ValueObjects;
 
 namespace ACME.CargoApp.API.User.Domain.Model.Aggregates;
@@ -32,4 +33,5 @@ public class User
     public UserAuthentication UserAuthentication { get; internal set; }
     public SubscriptionPlan SubscriptionPlan { get; internal set; }
     
+    public Client Client { get; internal set; }
 }
