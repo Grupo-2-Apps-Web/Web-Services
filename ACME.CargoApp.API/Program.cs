@@ -7,6 +7,11 @@ using ACME.CargoApp.API.Shared.Domain.Repositories;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using ACME.CargoApp.API.Shared.Interfaces.ASP.Configuration;
+using ACME.CargoApp.API.User.Application.Internal.CommandServices;
+using ACME.CargoApp.API.User.Application.Internal.QueryServices;
+using ACME.CargoApp.API.User.Domain.Repositories;
+using ACME.CargoApp.API.User.Domain.Services;
+using ACME.CargoApp.API.User.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -81,7 +86,21 @@ builder.Services.AddScoped<IDriverQueryService, DriverQueryService>();
 builder.Services.AddScoped<IVehicleQueryService, VehicleQueryService>();
 
 // User Bounded Context Injection Configuration
-// ...
+// Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IEntrepreneurRepository, EntrepreneurRepository>();
+builder.Services.AddScoped<IConfigurationRepository, ConfigurationRepository>();
+// Commands
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IClientCommandService, ClientCommandService>();
+builder.Services.AddScoped<IEntrepreneurCommandService, EntrepreneurCommandService>();
+builder.Services.AddScoped<IConfigurationCommandService, ConfigurationCommandService>();
+// Queries
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<IClientQueryService, ClientQueryService>();
+builder.Services.AddScoped<IEntrepreneurQueryService, EntrepreneurQueryService>();
+builder.Services.AddScoped<IConfigurationQueryService, ConfigurationQueryService>();
 
 var app = builder.Build();
 

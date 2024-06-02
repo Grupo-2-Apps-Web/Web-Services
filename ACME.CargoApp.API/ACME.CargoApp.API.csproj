@@ -25,10 +25,6 @@
       <Folder Include="Registration\Domain\Model\Aggregates\" />
       <Folder Include="Registration\Domain\Model\ValueObjects\" />
       <Folder Include="User\Application\Internal\" />
-      <Folder Include="User\Domain\Model\" />
-      <Folder Include="User\Infrastructure\Persistence\EFC\Repositories\" />
-      <Folder Include="User\Interfaces\REST\Resources\" />
-      <Folder Include="User\Interfaces\REST\Transform\" />
     </ItemGroup>
 
 </Project>
