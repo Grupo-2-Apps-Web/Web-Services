@@ -80,6 +80,15 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Evidence>().Property(ev => ev.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<Evidence>().Property(ev => ev.Link).IsRequired().HasMaxLength(200);
         
+        //Alert Table
+        builder.Entity<Alert>().HasKey(a => a.Id);
+        builder.Entity<Alert>().Property(a => a.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Alert>().Property(a => a.Title).IsRequired().HasMaxLength(20);
+        builder.Entity<Alert>().Property(a => a.Description).IsRequired();
+        builder.Entity<Alert>().Property(a => a.Date).IsRequired();
+        
+        
+        
         //Trips Table Relationships
         builder.Entity<Trip>()
             .HasOne(t => t.Driver)

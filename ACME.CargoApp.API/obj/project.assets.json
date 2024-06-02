@@ -9454,26 +9454,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\pc\\.nuget\\packages\\": {}
+    "C:\\Users\\Adolfo PC\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\apps-web-service\\Web-Services\\ACME.CargoApp.API\\ACME.CargoApp.API.csproj",
+      "projectUniqueName": "C:\\Users\\Adolfo PC\\Documents\\GitHub\\Web-Services\\ACME.CargoApp.API\\ACME.CargoApp.API.csproj",
       "projectName": "ACME.CargoApp.API",
-      "projectPath": "D:\\apps-web-service\\Web-Services\\ACME.CargoApp.API\\ACME.CargoApp.API.csproj",
-      "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
-      "outputPath": "D:\\apps-web-service\\Web-Services\\ACME.CargoApp.API\\obj\\",
+      "projectPath": "C:\\Users\\Adolfo PC\\Documents\\GitHub\\Web-Services\\ACME.CargoApp.API\\ACME.CargoApp.API.csproj",
+      "packagesPath": "C:\\Users\\Adolfo PC\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Adolfo PC\\Documents\\GitHub\\Web-Services\\ACME.CargoApp.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\Adolfo PC\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -9550,7 +9548,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\pc\\.dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Users\\Adolfo PC\\.dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
