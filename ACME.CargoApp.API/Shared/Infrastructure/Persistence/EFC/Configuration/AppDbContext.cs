@@ -74,7 +74,11 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Expense>().Property(e => e.ViaticsDescription).IsRequired();
         builder.Entity<Expense>().Property(e => e.TollsAmount).IsRequired();
         builder.Entity<Expense>().Property(e => e.TollsDescription).IsRequired();
-         
+        
+        //Evidence Table
+        builder.Entity<Evidence>().HasKey(ev => ev.Id);
+        builder.Entity<Evidence>().Property(ev => ev.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Evidence>().Property(ev => ev.Link).IsRequired().HasMaxLength(200);
         
         //Trips Table Relationships
         builder.Entity<Trip>()
@@ -95,6 +99,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasOne(e => e.Trip)
             .WithOne(t => t.Expense)
             .HasForeignKey<Expense>(e => e.TripId)
+            .HasPrincipalKey<Trip>(t => t.Id);
+        
+        //Evidences Table Relationships
+        builder.Entity<Evidence>()
+            .HasOne(ev => ev.Trip)
+            .WithOne(t => t.Evidence)
+            .HasForeignKey<Evidence>(ev => ev.TripId)
             .HasPrincipalKey<Trip>(t => t.Id);
         
         // User Context

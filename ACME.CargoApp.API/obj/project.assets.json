@@ -9454,24 +9454,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\pc\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\Documents\\GitHub\\aplicaciones web\\Web-Services\\ACME.CargoApp.API\\ACME.CargoApp.API.csproj",
+      "projectUniqueName": "D:\\apps-web-service\\Web-Services\\ACME.CargoApp.API\\ACME.CargoApp.API.csproj",
       "projectName": "ACME.CargoApp.API",
-      "projectPath": "C:\\Users\\User\\Documents\\GitHub\\aplicaciones web\\Web-Services\\ACME.CargoApp.API\\ACME.CargoApp.API.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\Documents\\GitHub\\aplicaciones web\\Web-Services\\ACME.CargoApp.API\\obj\\",
+      "projectPath": "D:\\apps-web-service\\Web-Services\\ACME.CargoApp.API\\ACME.CargoApp.API.csproj",
+      "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
+      "outputPath": "D:\\apps-web-service\\Web-Services\\ACME.CargoApp.API\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9555,7 +9550,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Users\\pc\\.dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

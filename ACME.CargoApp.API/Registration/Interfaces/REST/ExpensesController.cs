@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ACME.CargoApp.API.Registration.Interfaces.REST;
 
+
 [ApiController]
 [Route("api/v1/[controller]")]
 public class ExpensesController(IExpenseCommandService expenseCommandService, IExpenseQueryService expenseQueryService)
