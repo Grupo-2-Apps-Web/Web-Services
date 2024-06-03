@@ -1,4 +1,6 @@
-﻿namespace ACME.CargoApp.API.Registration.Domain.Model.Entities;
+﻿using ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
+
+namespace ACME.CargoApp.API.Registration.Domain.Model.Entities;
 
 public class Driver
 {
@@ -23,4 +25,6 @@ public class Driver
     public string Dni { get; set; }
     public string License { get; set; }
     public string ContactNumber { get; set; }
+    
+    public ICollection<Trip> Trips { get; }
 }

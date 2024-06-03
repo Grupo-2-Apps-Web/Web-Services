@@ -22,8 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Registration\Domain\Model\Aggregates\" />
-      <Folder Include="Registration\Domain\Model\ValueObjects\" />
       <Folder Include="User\Application\Internal\" />
     </ItemGroup>
 

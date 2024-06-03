@@ -7,6 +7,6 @@ public static class EntrepreneurResourceFromEntityAssembler
 {
    public static EntrepreneurResource ToResourceFromEntity(Entrepreneur entity)
    {
-       return new EntrepreneurResource(entity.Id, entity.UserId, entity.LogoIma);
+       return new EntrepreneurResource(entity.Id, entity.UserId, entity.LogoImage);
    }
 }

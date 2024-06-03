@@ -1,4 +1,6 @@
-﻿namespace ACME.CargoApp.API.Registration.Domain.Model.Entities;
+﻿using ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
+
+namespace ACME.CargoApp.API.Registration.Domain.Model.Entities;
 
 public class Vehicle
 {
@@ -26,4 +28,6 @@ public class Vehicle
     public string TractorPlate { get; set; }
     public float MaxLoad { get; set; }
     public float Volume { get; set; }
+    
+    public ICollection<Trip> Trips { get; }
 }
