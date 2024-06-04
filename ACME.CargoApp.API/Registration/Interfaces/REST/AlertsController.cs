@@ -14,11 +14,19 @@ public class AlertsController(IAlertCommandService alertCommandService, IAlertQu
     [HttpPost]
     public async Task<IActionResult> CreateAlert([FromBody] CreateAlertResource createAlertResource)
     {
-        var createAlertCommand = CreateAlertCommandFromResourceAssembler.ToCommandFromResource(createAlertResource);
-        var alert = await alertCommandService.Handle(createAlertCommand);
-        if (alert is null) return BadRequest();
-        var resource = AlertResourceFromEntityAssembler.ToResourceFromEntity(alert);
-        return CreatedAtAction(nameof(GetAlertById), new { alertId = resource.Id }, resource);
+        try
+        {
+            var createAlertCommand = CreateAlertCommandFromResourceAssembler.ToCommandFromResource(createAlertResource);
+            var alert = await alertCommandService.Handle(createAlertCommand);
+            if (alert is null) return BadRequest();
+            var resource = AlertResourceFromEntityAssembler.ToResourceFromEntity(alert);
+            return CreatedAtAction(nameof(GetAlertById), new { alertId = resource.Id }, resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while creating the alert." + e.Message });
+        }
     }
     
     [HttpGet]

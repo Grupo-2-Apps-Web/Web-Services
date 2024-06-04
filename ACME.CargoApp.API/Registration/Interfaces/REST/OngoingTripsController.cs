@@ -14,22 +14,38 @@ public class OngoingTripsController(IOngoingTripCommandService ongoingTripComman
     [HttpPost]
     public async Task<IActionResult> CreateOngoingTrip([FromBody] CreateOngoingTripResource createOngoingTripResource)
     {
-        var createOngoingTripCommand = CreateOngoingTripCommandFromResourceAssembler.ToCommandFromResource(createOngoingTripResource);
-        var ongoingTrip = await ongoingTripCommandService.Handle(createOngoingTripCommand);
-        if (ongoingTrip is null) return BadRequest();
-        var resource = OngoingTripResourceFromEntityAssembler.ToResourceFromEntity(ongoingTrip);
-        return CreatedAtAction(nameof(GetOngoingTripById), new { ongoingTripId = resource.Id }, resource);
+        try
+        {
+            var createOngoingTripCommand = CreateOngoingTripCommandFromResourceAssembler.ToCommandFromResource(createOngoingTripResource);
+            var ongoingTrip = await ongoingTripCommandService.Handle(createOngoingTripCommand);
+            if (ongoingTrip is null) return BadRequest();
+            var resource = OngoingTripResourceFromEntityAssembler.ToResourceFromEntity(ongoingTrip);
+            return CreatedAtAction(nameof(GetOngoingTripById), new { ongoingTripId = resource.Id }, resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while creating the ongoing trip. " + e.Message });
+        }
     }
     
     [HttpPut("{ongoingTripId}")]
     public async Task<IActionResult> UpdateOngoingTrip([FromBody] UpdateOngoingTripResource updateOngoingTripResource, [FromRoute] int ongoingTripId)
     {
-        var updateOngoingTripCommand = UpdateOngoingTripCommandFromResourceAssembler.ToCommandFromResource(updateOngoingTripResource, ongoingTripId);
-        
-        var ongoingTrip = await ongoingTripCommandService.Handle(updateOngoingTripCommand);
-        if (ongoingTrip is null) return BadRequest();
-        var resource = OngoingTripResourceFromEntityAssembler.ToResourceFromEntity(ongoingTrip);
-        return Ok(resource);
+        try
+        {
+            var updateOngoingTripCommand = UpdateOngoingTripCommandFromResourceAssembler.ToCommandFromResource(updateOngoingTripResource, ongoingTripId);
+            var ongoingTrip = await ongoingTripCommandService.Handle(updateOngoingTripCommand);
+            if (ongoingTrip is null) return BadRequest();
+            var resource = OngoingTripResourceFromEntityAssembler.ToResourceFromEntity(ongoingTrip);
+            return Ok(resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while updating the ongoing trip. " + e.Message });
+        }
+
     }
     
     
