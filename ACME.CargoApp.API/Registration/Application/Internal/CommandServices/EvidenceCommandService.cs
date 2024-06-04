@@ -18,7 +18,7 @@ public class EvidenceCommandService(IEvidenceRepository evidenceRepository ,ITri
             throw new ArgumentException("TripId not found.");
         }
         
-        var evidence = new Evidence(command.Link, command.TripId);
+        var evidence = new Evidence(command, trip);
         await evidenceRepository.AddAsync(evidence);
         await unitOfWork.CompleteAsync();
         return evidence;

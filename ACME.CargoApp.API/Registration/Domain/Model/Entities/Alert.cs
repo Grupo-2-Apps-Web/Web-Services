@@ -1,4 +1,6 @@
 ﻿using ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
+using ACME.CargoApp.API.Registration.Domain.Model.Commands;
+
 namespace ACME.CargoApp.API.Registration.Domain.Model.Entities;
 
 public class Alert
@@ -8,6 +10,7 @@ public class Alert
         Title= string.Empty;
         Description = string.Empty;
         Date = DateTime.Now;
+        Trip = new Trip();
     }
     
     public Alert(string title, string description, DateTime date, int tripId)
@@ -16,6 +19,14 @@ public class Alert
         Description = description;
         Date = date;
         TripId = tripId;
+    }
+
+    public Alert(CreateAlertCommand command, Trip trip)
+    {
+        Title = command.Title;
+        Description = command.Description;
+        Date = command.Date;
+        Trip = trip;
     }
     
     public int Id { get; set; }

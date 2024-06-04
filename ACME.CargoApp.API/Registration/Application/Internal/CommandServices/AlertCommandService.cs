@@ -18,7 +18,7 @@ public class AlertCommandService(IAlertRepository alertRepository, ITripReposito
             throw new ArgumentException("TripId not found.");
         }
 
-        var alert = new Alert(command.Title, command.Description, command.Date, command.TripId);
+        var alert = new Alert(command, trip);
         await alertRepository.AddAsync(alert);
         await unitOfWork.CompleteAsync();
         return alert;

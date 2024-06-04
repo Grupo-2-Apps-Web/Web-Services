@@ -1,4 +1,5 @@
-﻿ using ACME.CargoApp.API.Registration.Domain.Model.Commands;
+﻿ using ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
+ using ACME.CargoApp.API.Registration.Domain.Model.Commands;
 using ACME.CargoApp.API.Registration.Domain.Model.Entities;
 using ACME.CargoApp.API.Registration.Domain.Repositories;
 using ACME.CargoApp.API.Registration.Domain.Services;
@@ -18,7 +19,7 @@ public class ExpenseCommandService(IExpenseRepository expenseRepository ,ITripRe
             throw new ArgumentException("TripId not found.");
         }
 
-        var expense = new Expense(command.FuelAmount, command.FuelDescription, command.ViaticsAmount, command.ViaticsDescription, command.TollsAmount, command.TollsDescription, command.TripId);
+        var expense = new Expense(command, trip);
         await expenseRepository.AddAsync(expense);
         await unitOfWork.CompleteAsync();
         return expense;

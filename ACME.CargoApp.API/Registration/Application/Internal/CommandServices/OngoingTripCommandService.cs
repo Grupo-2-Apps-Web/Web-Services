@@ -17,7 +17,7 @@ public class OngoingTripCommandService(IOngoingTripRepository ongoingTripReposit
             throw new ArgumentException("TripId not found.");
         }
 
-        var ongoingTrip = new OngoingTrip(command.Latitude, command.Longitude, command.Speed, command.Distance, command.TripId);
+        var ongoingTrip = new OngoingTrip(command, trip);
         await ongoingTripRepository.AddAsync(ongoingTrip);
         await unitOfWork.CompleteAsync();
         return ongoingTrip;

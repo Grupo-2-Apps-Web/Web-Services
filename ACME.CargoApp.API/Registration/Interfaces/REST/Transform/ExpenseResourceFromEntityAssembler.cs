@@ -7,7 +7,6 @@ public static class ExpenseResourceFromEntityAssembler
 {
     public static ExpenseResource ToResourceFromEntity(Expense entity)
     {
-        Console.WriteLine("Expense's fuel amount is " + entity.FuelAmount);
         return new ExpenseResource(entity.Id, entity.FuelAmount, entity.FuelDescription, entity.ViaticsAmount,
             entity.ViaticsDescription, entity.TollsAmount, entity.TollsDescription, entity.TripId);
     }
