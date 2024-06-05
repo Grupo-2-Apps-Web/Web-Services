@@ -25,7 +25,7 @@ public class OngoingTripCommandService(IOngoingTripRepository ongoingTripReposit
     
     public async Task<OngoingTrip?> Handle(UpdateOngoingTripCommand command)
     {
-        var ongoingTrip = await ongoingTripRepository.FindByIdAsync(command.TripId);
+        var ongoingTrip = await ongoingTripRepository.FindByIdAsync(command.OngoingTripId);
         if (ongoingTrip == null)
         {
             return null;
