@@ -16,6 +16,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         // Enable Audit Fields Interceptors
         builder.AddCreatedUpdatedInterceptor();
     }
+    
+    public DbSet<Expense> Expenses { get; set; }
+    public DbSet<Evidence> Evidences { get; set; }
+
+    public DbSet<OngoingTrip> OngoingTrips { get; set; }
+
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

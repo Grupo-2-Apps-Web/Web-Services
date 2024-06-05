@@ -24,6 +24,11 @@ public class EvidencesController (IEvidenceCommandService evidenceCommandService
             var resource = EvidenceResourceFromEntityAssembler.ToResourceFromEntity(evidence);
             return CreatedAtAction(nameof(GetEvidenceById), new { evidenceId = resource.Id }, resource);
         }
+        catch (InvalidOperationException e)
+        {
+            // Handle the case where an Expense with the same TripId already exists
+            return BadRequest(new {message = "An Expense with the same TripId already exists."});
+        }
         catch (Exception e)
         {
             Console.WriteLine(e);

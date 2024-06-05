@@ -24,6 +24,11 @@ public class ExpensesController(IExpenseCommandService expenseCommandService, IE
             var resource = ExpenseResourceFromEntityAssembler.ToResourceFromEntity(expense);
             return CreatedAtAction(nameof(GetExpenseById), new { expenseId = resource.Id }, resource);
         }
+        catch (InvalidOperationException e)
+        {
+            // Handle the case where an Expense with the same TripId already exists
+            return BadRequest(new {message = "An Expense with the same TripId already exists."});
+        }
         catch (Exception e)
         {
             Console.WriteLine(e);

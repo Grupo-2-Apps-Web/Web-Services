@@ -4,5 +4,5 @@ namespace ACME.CargoApp.API.Registration.Domain.Repositories;
 
 public interface IOngoingTripRepository : IBaseRepository<OngoingTrip>
 {
-    
+    Task<OngoingTrip?> FindByTripIdAsync(int tripId);
 }
