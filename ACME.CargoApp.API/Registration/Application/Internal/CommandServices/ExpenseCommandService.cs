@@ -19,6 +19,13 @@ public class ExpenseCommandService(IExpenseRepository expenseRepository ,ITripRe
             throw new ArgumentException("TripId not found.");
         }
 
+        // Check if an Expense with the same TripId already exists
+        var existingExpense = await expenseRepository.FindByTripIdAsync(command.TripId);
+        if (existingExpense != null)
+        {
+            throw new InvalidOperationException("An Expense with the same TripId already exists.");
+        }
+
         var expense = new Expense(command, trip);
         await expenseRepository.AddAsync(expense);
         await unitOfWork.CompleteAsync();
@@ -27,7 +34,7 @@ public class ExpenseCommandService(IExpenseRepository expenseRepository ,ITripRe
     
     public async Task<Expense?> Handle(UpdateExpenseCommand command)
     {
-        var expense = await expenseRepository.FindByIdAsync(command.TripId);
+        var expense = await expenseRepository.FindByIdAsync(command.ExpenseId);
         if (expense == null)
         {
             return null;
@@ -39,7 +46,7 @@ public class ExpenseCommandService(IExpenseRepository expenseRepository ,ITripRe
         expense.FuelDescription = command.FuelDescription;
         expense.TollsAmount = command.TollsAmount;
         expense.TollsDescription = command.TollsDescription;
-        
+    
         await unitOfWork.CompleteAsync();
         return expense;
     }
