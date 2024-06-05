@@ -16,6 +16,12 @@ public class OngoingTripCommandService(IOngoingTripRepository ongoingTripReposit
         {
             throw new ArgumentException("TripId not found.");
         }
+        // Check if an Expense with the same TripId already exists
+        var existingExpense = await ongoingTripRepository.FindByTripIdAsync(command.TripId);
+        if (existingExpense != null)
+        {
+            throw new InvalidOperationException("An OnGoingTrip with the same TripId already exists.");
+        }
 
         var ongoingTrip = new OngoingTrip(command, trip);
         await ongoingTripRepository.AddAsync(ongoingTrip);
