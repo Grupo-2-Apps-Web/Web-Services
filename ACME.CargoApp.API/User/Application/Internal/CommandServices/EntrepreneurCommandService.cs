@@ -16,10 +16,7 @@ public class EntrepreneurCommandService(IEntrepreneurRepository entrepreneurRepo
             throw new ArgumentException("UserId not found.");
         }
         // Create the entrepreneur
-        var entrepreneur = new Entrepreneur(command.UserId, user)
-        {
-            LogoImage = command.LogoImage
-        };
+        var entrepreneur = new Entrepreneur(command.UserId, command.LogoImage, user);
         try
         {
             await entrepreneurRepository.AddAsync(entrepreneur);

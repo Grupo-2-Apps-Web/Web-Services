@@ -9,9 +9,10 @@ public class Entrepreneur
         User = new Aggregates.User();
     }
     
-    public Entrepreneur(int userId, Aggregates.User user)
+    public Entrepreneur(int userId, string logoImage, Aggregates.User user)
     {
         UserId = userId;
+        LogoImage = logoImage;
         User = user;
     }
     
