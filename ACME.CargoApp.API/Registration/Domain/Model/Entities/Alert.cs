@@ -13,12 +13,13 @@ public class Alert
         Trip = new Trip();
     }
     
-    public Alert(string title, string description, DateTime date, int tripId)
+    public Alert(string title, string description, DateTime date, int tripId, Trip trip)
     {
         Title = title;
         Description = description;
         Date = date;
         TripId = tripId;
+        Trip = trip;
     }
 
     public Alert(CreateAlertCommand command, Trip trip)

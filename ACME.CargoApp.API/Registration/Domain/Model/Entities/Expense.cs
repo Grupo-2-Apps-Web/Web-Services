@@ -15,7 +15,7 @@ public class Expense
         TollsDescription = string.Empty;
     }
     
-    public Expense(int fuelAmount, string fuelDescription, int viaticsAmount, string viaticsDescription, int tollsAmount, string tollsDescription, int tripId)
+    public Expense(int fuelAmount, string fuelDescription, int viaticsAmount, string viaticsDescription, int tollsAmount, string tollsDescription, int tripId, Trip trip)
     {
         FuelAmount = fuelAmount;
         FuelDescription = fuelDescription;
@@ -24,6 +24,7 @@ public class Expense
         TollsAmount = tollsAmount;
         TollsDescription = tollsDescription;
         TripId = tripId;
+        Trip = trip;
     }
     
     public Expense(CreateExpenseCommand command, Trip trip)

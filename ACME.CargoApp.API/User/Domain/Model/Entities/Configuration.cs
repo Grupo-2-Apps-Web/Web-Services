@@ -9,9 +9,13 @@ public class Configuration
         UpdateDataSharing = false;
     }
     
-    public Configuration(int userId, Aggregates.User user)
+    public Configuration(int userId, string theme, string view, bool allowDataCollection, bool updateDataSharing,  Aggregates.User user)
     {
         UserId = userId;
+        Theme = theme;
+        View = view;
+        AllowDataCollection = allowDataCollection;
+        UpdateDataSharing = updateDataSharing;
         User = user;
     }
     

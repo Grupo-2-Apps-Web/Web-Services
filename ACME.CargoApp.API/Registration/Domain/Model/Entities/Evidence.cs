@@ -11,10 +11,11 @@ public class Evidence
         Trip = new Trip();
     }
     
-    public Evidence(string link, int tripId)
+    public Evidence(string link, int tripId, Trip trip)
     {
         Link = link;
         TripId = tripId;
+        Trip = trip;
     }
     
     public Evidence(CreateEvidenceCommand command, Trip trip)
