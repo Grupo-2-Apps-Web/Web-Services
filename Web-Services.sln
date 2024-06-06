@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACME.CargoApp.API", "ACME.CargoApp.API\ACME.CargoApp.API.csproj", "{5E764C45-58BD-4C7E-8828-DD2D6DAF9918}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CargoApp.UnitTests", "CargoApp.UnitTests\CargoApp.UnitTests.csproj", "{24F45214-820F-4689-AC01-38A9BD41FBB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{5E764C45-58BD-4C7E-8828-DD2D6DAF9918}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E764C45-58BD-4C7E-8828-DD2D6DAF9918}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E764C45-58BD-4C7E-8828-DD2D6DAF9918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24F45214-820F-4689-AC01-38A9BD41FBB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24F45214-820F-4689-AC01-38A9BD41FBB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24F45214-820F-4689-AC01-38A9BD41FBB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24F45214-820F-4689-AC01-38A9BD41FBB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

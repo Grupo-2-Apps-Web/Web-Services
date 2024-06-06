@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "6SiN8Z82EIJfH54+ATptb/cm1fi80lHicmOVYWcmhXk=",
+  "Source": "ACME.CargoApp.API",
+  "BasePath": "_content/ACME.CargoApp.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

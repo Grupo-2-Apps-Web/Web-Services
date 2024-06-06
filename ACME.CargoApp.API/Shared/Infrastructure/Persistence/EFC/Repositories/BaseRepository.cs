@@ -3,7 +3,7 @@ using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Repositories;
-/*
+
 public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
 {
     protected readonly AppDbContext Context;
@@ -21,4 +21,3 @@ public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where T
     public async Task<IEnumerable<TEntity>> ListAsync() => await Context.Set<TEntity>().ToListAsync();
     
 }
-*/

@@ -1,25 +1,83 @@
+using ACME.CargoApp.API.Registration.Application.Internal.CommandServices;
+using ACME.CargoApp.API.Registration.Application.Internal.QueryServices;
+using ACME.CargoApp.API.Registration.Domain.Repositories;
+using ACME.CargoApp.API.Registration.Domain.Services;
+using ACME.CargoApp.API.Registration.Infrastructure;
+using ACME.CargoApp.API.Registration.Infrastructure.Persistence.EFC.Repositories;
 using ACME.CargoApp.API.Shared.Domain.Repositories;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using ACME.CargoApp.API.Shared.Interfaces.ASP.Configuration;
+using ACME.CargoApp.API.User.Application.Internal.CommandServices;
+using ACME.CargoApp.API.User.Application.Internal.QueryServices;
+using ACME.CargoApp.API.User.Domain.Repositories;
+using ACME.CargoApp.API.User.Domain.Services;
+using ACME.CargoApp.API.User.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 
 builder.Services.AddControllers( options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
+
+// Add CORS Policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder
+                .AllowAnyOrigin() 
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 // Add Database Connection
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Configure Database Context and Logging Levels
-// ...
+builder.Services.AddDbContext<AppDbContext>(
+    options =>
+    {
+        if (connectionString != null)
+            if (builder.Environment.IsDevelopment())
+                options.UseMySQL(connectionString)
+                    .LogTo(Console.WriteLine, LogLevel.Information)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();
+            else if (builder.Environment.IsProduction())
+                options.UseMySQL(connectionString)
+                    .LogTo(Console.WriteLine, LogLevel.Error)
+                    .EnableDetailedErrors();    
+    });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(
+    c =>
+    {
+        c.SwaggerDoc("v1",new OpenApiInfo
+            {
+                Title = "ACME.CargoApp.API",
+                Version = "v1",
+                Description = "ACME Cargo App API",
+                TermsOfService = new Uri("https://acme-cargo.com/tos"),
+                Contact = new OpenApiContact
+                {
+                    Name = "ACME Studios",
+                    Email = "contact@acme.com"
+                },
+                License = new OpenApiLicense
+                {
+                    Name = "Apache 2.0",
+                    Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
+                }
+            }
+            );
+        c.EnableAnnotations();
+    });
 
 // Configure Lowercase URLs
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
@@ -30,10 +88,46 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Registration Bounded Context Injection Configuration
-// ...
-
+//Repositories
+builder.Services.AddScoped<IDriverRepository, DriverRepository>();
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+builder.Services.AddScoped<ITripRepository, TripRepository>();
+builder.Services.AddScoped<IExpenseRepository, ExpenseRepository>();
+builder.Services.AddScoped<IEvidenceRepository, EvidenceRepository>();
+builder.Services.AddScoped<IAlertRepository, AlertRepository>();
+builder.Services.AddScoped<IOngoingTripRepository, OngoingTripRepository>();
+//Commands
+builder.Services.AddScoped<IDriverCommandService, DriverCommandService>();
+builder.Services.AddScoped<IVehicleCommandService, VehicleCommandService>();
+builder.Services.AddScoped<ITripCommandService, TripCommandService>();
+builder.Services.AddScoped<IExpenseCommandService, ExpenseCommandService>();
+builder.Services.AddScoped<IEvidenceCommandService, EvidenceCommandService>();
+builder.Services.AddScoped<IAlertCommandService, AlertCommandService>();
+builder.Services.AddScoped<IOngoingTripCommandService, OngoingTripCommandService>();
+//Queries
+builder.Services.AddScoped<IDriverQueryService, DriverQueryService>();
+builder.Services.AddScoped<IVehicleQueryService, VehicleQueryService>();
+builder.Services.AddScoped<ITripQueryService, TripQueryService>();
+builder.Services.AddScoped<IExpenseQueryService, ExpenseQueryService>();
+builder.Services.AddScoped<IEvidenceQueryService, EvidenceQueryService>();
+builder.Services.AddScoped<IAlertQueryService, AlertQueryService>();
+builder.Services.AddScoped<IOngoingTripQueryService, OngoingTripQueryService>();
 // User Bounded Context Injection Configuration
-// ...
+// Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IEntrepreneurRepository, EntrepreneurRepository>();
+builder.Services.AddScoped<IConfigurationRepository, ConfigurationRepository>();
+// Commands
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IClientCommandService, ClientCommandService>();
+builder.Services.AddScoped<IEntrepreneurCommandService, EntrepreneurCommandService>();
+builder.Services.AddScoped<IConfigurationCommandService, ConfigurationCommandService>();
+// Queries
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<IClientQueryService, ClientQueryService>();
+builder.Services.AddScoped<IEntrepreneurQueryService, EntrepreneurQueryService>();
+builder.Services.AddScoped<IConfigurationQueryService, ConfigurationQueryService>();
 
 var app = builder.Build();
 
@@ -46,13 +140,15 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
