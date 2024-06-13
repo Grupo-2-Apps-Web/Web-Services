@@ -16,4 +16,9 @@ public class ClientQueryService(IClientRepository clientRepository) : IClientQue
     {
         return await clientRepository.FindByIdAsync(query.ClientId);
     }
+
+    public async Task<Client?> Handle(GetClientByUserIdQuery query)
+    {
+        return await clientRepository.FindByUserIdAsync(query.UserId);
+    }
 }

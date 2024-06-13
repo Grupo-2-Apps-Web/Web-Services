@@ -17,11 +17,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.AddCreatedUpdatedInterceptor();
     }
     
+    public DbSet<User.Domain.Model.Aggregates.User> Users { get; set; }
+    public DbSet<Client> Clients { get; set; }
+    public DbSet<Entrepreneur> Entrepreneurs { get; set; }
+    public DbSet<User.Domain.Model.Entities.Configuration> Configurations { get; set; }
+
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<Evidence> Evidences { get; set; }
-
     public DbSet<OngoingTrip> OngoingTrips { get; set; }
-
 
 
     protected override void OnModelCreating(ModelBuilder builder)

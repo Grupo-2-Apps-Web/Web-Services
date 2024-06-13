@@ -5,5 +5,5 @@ namespace ACME.CargoApp.API.User.Domain.Repositories;
 
 public interface IUserRepository : IBaseRepository<Model.Aggregates.User>
 {
-    
+    Task<Model.Aggregates.User?> FindByEmailAsync(string email);
 }

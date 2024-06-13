@@ -14,6 +14,11 @@ public class UserCommandService(IUserRepository userRepository, IUnitOfWork unit
         {
             throw new ArgumentException("Subscription is not valid.");
         }
+        var existingUser = await userRepository.FindByEmailAsync(command.Email);
+        if (existingUser != null)
+        {
+            throw new ArgumentException("Email is already in use.");
+        }
         try
         {
             var user = new Domain.Model.Aggregates.User(command.Name, command.Phone, command.Ruc, command.Address,

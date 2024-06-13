@@ -8,7 +8,7 @@ namespace ACME.CargoApp.API.User.Interfaces.REST;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class UsersController(IUserQueryService userQueryService, IUserCommandService userCommandService) : ControllerBase
+public class UsersController(IUserQueryService userQueryService, IClientQueryService clientQueryService, IEntrepreneurQueryService entrepreneurQueryService, IConfigurationQueryService configurationQueryService, IUserCommandService userCommandService) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserResource createUserResource)
@@ -61,6 +61,33 @@ public class UsersController(IUserQueryService userQueryService, IUserCommandSer
         var user = await userQueryService.Handle(new GetUserByIdQuery(userId));
         if (user == null) return NotFound();
         var resource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
+        return Ok(resource);
+    }
+    
+    [HttpGet("{userId}/clients")]
+    public async Task<IActionResult> GetClientByUserId([FromRoute] int userId)
+    {
+        var client = await clientQueryService.Handle(new GetClientByUserIdQuery(userId));
+        if (client == null) return NotFound();
+        var resource = ClientResourceFromEntityAssembler.ToResourceFromEntity(client);
+        return Ok(resource);
+    }
+    
+    [HttpGet("{userId}/entrepreneurs")]
+    public async Task<IActionResult> GetEntrepreneurByUserId([FromRoute] int userId)
+    {
+        var entrepreneur = await entrepreneurQueryService.Handle(new GetEntrepreneurByUserIdQuery(userId));
+        if (entrepreneur == null) return NotFound();
+        var resource = EntrepreneurResourceFromEntityAssembler.ToResourceFromEntity(entrepreneur);
+        return Ok(resource);
+    }
+    
+    [HttpGet("{userId}/configurations")]
+    public async Task<IActionResult> GetConfigurationByUserId([FromRoute] int userId)
+    {
+        var configuration = await configurationQueryService.Handle(new GetConfigurationByUserIdQuery(userId));
+        if (configuration == null) return NotFound();
+        var resource = ConfigurationResourceFromEntityAssembler.ToResourceFromEntity(configuration);
         return Ok(resource);
     }
 }
