@@ -4,5 +4,6 @@ namespace ACME.CargoApp.API.User.Domain.Repositories;
 
 public interface IConfigurationRepository : IBaseRepository<Configuration>
 {
+    Task<Configuration?> FindByUserIdAsync(int userId);
     
 }

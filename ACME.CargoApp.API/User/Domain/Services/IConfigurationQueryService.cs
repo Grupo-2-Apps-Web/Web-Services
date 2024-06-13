@@ -6,4 +6,5 @@ public interface IConfigurationQueryService
 {
     Task<IEnumerable<Configuration>> Handle(GetAllConfigurationsQuery query);
     Task<Configuration?> Handle(GetConfigurationByIdQuery query);
+    Task<Configuration?> Handle(GetConfigurationByUserIdQuery query);
 }
