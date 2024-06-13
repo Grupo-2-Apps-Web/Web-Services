@@ -16,22 +16,43 @@ public class EvidencesController (IEvidenceCommandService evidenceCommandService
     [HttpPost]
     public async Task<IActionResult> CreateEvidence([FromBody] CreateEvidenceResource createEvidenceResource)
     {
-        var createEvidenceCommand = CreateEvidenceCommandFromResourceAssembler.ToCommandFromResource(createEvidenceResource);
-        var evidence = await evidenceCommandService.Handle(createEvidenceCommand);
-        if (evidence is null) return BadRequest();
-        var resource = EvidenceResourceFromEntityAssembler.ToResourceFromEntity(evidence);
-        return CreatedAtAction(nameof(GetEvidenceById), new { evidenceId = resource.Id }, resource);
+        try
+        {
+            var createEvidenceCommand = CreateEvidenceCommandFromResourceAssembler.ToCommandFromResource(createEvidenceResource);
+            var evidence = await evidenceCommandService.Handle(createEvidenceCommand);
+            if (evidence is null) return BadRequest();
+            var resource = EvidenceResourceFromEntityAssembler.ToResourceFromEntity(evidence);
+            return CreatedAtAction(nameof(GetEvidenceById), new { evidenceId = resource.Id }, resource);
+        }
+        catch (InvalidOperationException e)
+        {
+            // Handle the case where an Expense with the same TripId already exists
+            return BadRequest(new {message = "An Expense with the same TripId already exists."});
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while creating the evidence. " + e.Message });
+        }
     }
     
     [HttpPut("{evidenceId}")]
     public async Task<IActionResult> UpdateEvidence([FromBody] UpdateEvidenceResource updateEvidenceResource, [FromRoute] int evidenceId)
     {
-        var updateEvidenceCommand = UpdateEvidenceCommandFromResourceAssembler.ToCommandFromResource(updateEvidenceResource, evidenceId);
-        
-        var evidence = await evidenceCommandService.Handle(updateEvidenceCommand);
-        if (evidence is null) return BadRequest();
-        var resource = EvidenceResourceFromEntityAssembler.ToResourceFromEntity(evidence);
-        return Ok(resource);
+        try
+        {
+            var updateEvidenceCommand = UpdateEvidenceCommandFromResourceAssembler.ToCommandFromResource(updateEvidenceResource, evidenceId);
+            var evidence = await evidenceCommandService.Handle(updateEvidenceCommand);
+            if (evidence is null) return BadRequest();
+            var resource = EvidenceResourceFromEntityAssembler.ToResourceFromEntity(evidence);
+            return Ok(resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while updating the evidence. " + e.Message });
+        }
+
     }
     
     [HttpGet]

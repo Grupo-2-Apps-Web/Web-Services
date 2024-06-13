@@ -27,14 +27,7 @@ public class ConfigurationCommandService (IConfigurationRepository configuration
             throw new ArgumentException("Invalid View. Only 'Grid' or 'List' are allowed.");
         }
         // Create the configuration
-        var configuration = new Configuration(command.UserId, user)
-        {
-            Theme = command.Theme,
-            View = command.View,
-            AllowDataCollection = command.AllowDataCollection,
-            UpdateDataSharing = command.UpdateDataSharing
-        };
-        
+        var configuration = new Configuration(command.UserId, command.Theme, command.View, command.AllowDataCollection, command.UpdateDataSharing, user);
         try
         {
             await configurationRepository.AddAsync(configuration);

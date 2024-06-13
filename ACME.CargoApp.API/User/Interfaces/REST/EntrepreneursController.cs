@@ -13,11 +13,19 @@ public class EntrepreneursController (IEntrepreneurQueryService entrepreneurQuer
     [HttpPost]
     public async Task<IActionResult> CreateEntrepreneur([FromBody] CreateEntrepreneurResource createEntrepreneurResource)
     {
-        var createEntrepreneurCommand = CreateEntrepreneurCommandFromResourceAssembler.ToCommandFromResource(createEntrepreneurResource);
-        var entrepreneur = await entrepreneurCommandService.Handle(createEntrepreneurCommand);
-        if (entrepreneur is null) return BadRequest();
-        var resource = EntrepreneurResourceFromEntityAssembler.ToResourceFromEntity(entrepreneur);
-        return CreatedAtAction(nameof(GetEntrepreneurById), new { entrepreneurId = resource.Id }, resource);
+        try
+        {
+            var createEntrepreneurCommand = CreateEntrepreneurCommandFromResourceAssembler.ToCommandFromResource(createEntrepreneurResource);
+            var entrepreneur = await entrepreneurCommandService.Handle(createEntrepreneurCommand);
+            if (entrepreneur is null) return BadRequest();
+            var resource = EntrepreneurResourceFromEntityAssembler.ToResourceFromEntity(entrepreneur);
+            return CreatedAtAction(nameof(GetEntrepreneurById), new { entrepreneurId = resource.Id }, resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while creating the entrepreneur. " + e.Message });
+        }
     }
     
     [HttpGet]

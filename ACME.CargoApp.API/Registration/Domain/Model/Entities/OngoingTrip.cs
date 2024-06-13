@@ -1,4 +1,6 @@
 ﻿using ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
+using ACME.CargoApp.API.Registration.Domain.Model.Commands;
+
 namespace ACME.CargoApp.API.Registration.Domain.Model.Entities;
 
 public class OngoingTrip
@@ -11,13 +13,23 @@ public class OngoingTrip
         Distance = 0;
     }
     
-    public OngoingTrip(float latitude, float longitude, int speed, int distance, int tripId)
+    public OngoingTrip(float latitude, float longitude, int speed, int distance, int tripId, Trip trip)
     {
         Latitude = latitude;
         Longitude = longitude;
         Speed = speed;
         Distance = distance;
         TripId = tripId;
+        Trip = trip;
+    }
+    
+    public OngoingTrip(CreateOngoingTripCommand command, Trip trip)
+    {
+        Latitude = command.Latitude;
+        Longitude = command.Longitude;
+        Speed = command.Speed;
+        Distance = command.Distance;
+        Trip = trip;
     }
     
     public int Id { get; set; }

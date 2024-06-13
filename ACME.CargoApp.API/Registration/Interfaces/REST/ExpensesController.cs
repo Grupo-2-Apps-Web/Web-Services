@@ -16,22 +16,42 @@ public class ExpensesController(IExpenseCommandService expenseCommandService, IE
     [HttpPost]
     public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseResource createExpenseResource)
     {
-        var createExpenseCommand = CreateExpenseCommandFromResourceAssembler.ToCommandFromResource(createExpenseResource);
-        var expense = await expenseCommandService.Handle(createExpenseCommand);
-        if (expense is null) return BadRequest();
-        var resource = ExpenseResourceFromEntityAssembler.ToResourceFromEntity(expense);
-        return CreatedAtAction(nameof(GetExpenseById), new { expenseId = resource.Id }, resource);
+        try
+        {
+            var createExpenseCommand = CreateExpenseCommandFromResourceAssembler.ToCommandFromResource(createExpenseResource);
+            var expense = await expenseCommandService.Handle(createExpenseCommand);
+            if (expense is null) return BadRequest();
+            var resource = ExpenseResourceFromEntityAssembler.ToResourceFromEntity(expense);
+            return CreatedAtAction(nameof(GetExpenseById), new { expenseId = resource.Id }, resource);
+        }
+        catch (InvalidOperationException e)
+        {
+            // Handle the case where an Expense with the same TripId already exists
+            return BadRequest(new {message = "An Expense with the same TripId already exists."});
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while creating the expense. " + e.Message });
+        }
     }
     
     [HttpPut("{expenseId}")]
     public async Task<IActionResult> UpdateExpense([FromBody] UpdateExpenseResource updateExpenseResource, [FromRoute] int expenseId)
     {
-        var updateExpenseCommand = UpdateExpenseCommandFromResourceAssembler.ToCommandFromResource(updateExpenseResource, expenseId);
-        
-        var expense = await expenseCommandService.Handle(updateExpenseCommand);
-        if (expense is null) return BadRequest();
-        var resource = ExpenseResourceFromEntityAssembler.ToResourceFromEntity(expense);
-        return Ok(resource);
+        try
+        {
+            var updateExpenseCommand = UpdateExpenseCommandFromResourceAssembler.ToCommandFromResource(updateExpenseResource, expenseId);
+            var expense = await expenseCommandService.Handle(updateExpenseCommand);
+            if (expense is null) return BadRequest();
+            var resource = ExpenseResourceFromEntityAssembler.ToResourceFromEntity(expense);
+            return Ok(resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while updating the expense. " + e.Message });
+        }
     }
     
     [HttpGet]

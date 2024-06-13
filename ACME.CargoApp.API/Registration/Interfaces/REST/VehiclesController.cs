@@ -14,22 +14,37 @@ public class VehiclesController(IVehicleCommandService vehicleCommandService, IV
     [HttpPost]
     public async Task<IActionResult> CreateVehicle([FromBody] CreateVehicleResource createVehicleResource)
     {
-        var createVehicleCommand = CreateVehicleCommandFromResourceAssembler.ToCommandFromResource(createVehicleResource);
-        var vehicle = await vehicleCommandService.Handle(createVehicleCommand);
-        if (vehicle is null) return BadRequest();
-        var resource = VehicleResourceFromEntityAssembler.ToResourceFromEntity(vehicle);
-        return CreatedAtAction(nameof(GetVehicleById), new { vehicleId = resource.Id }, resource);
+        try
+        {
+            var createVehicleCommand = CreateVehicleCommandFromResourceAssembler.ToCommandFromResource(createVehicleResource);
+            var vehicle = await vehicleCommandService.Handle(createVehicleCommand);
+            if (vehicle is null) return BadRequest();
+            var resource = VehicleResourceFromEntityAssembler.ToResourceFromEntity(vehicle);
+            return CreatedAtAction(nameof(GetVehicleById), new { vehicleId = resource.Id }, resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while creating the vehicle. " + e.Message });
+        }
     }
     
     [HttpPut("{vehicleId}")]
     public async Task<IActionResult> UpdateVehicle([FromBody] UpdateVehicleResource updateVehicleResource, [FromRoute] int vehicleId)
     {
-        var updateVehicleCommand = UpdateVehicleCommandFromResourceAssembler.ToCommandFromResource(updateVehicleResource, vehicleId);
-        
-        var vehicle = await vehicleCommandService.Handle(updateVehicleCommand);
-        if (vehicle is null) return BadRequest();
-        var resource = VehicleResourceFromEntityAssembler.ToResourceFromEntity(vehicle);
-        return Ok(resource);
+        try
+        {
+            var updateVehicleCommand = UpdateVehicleCommandFromResourceAssembler.ToCommandFromResource(updateVehicleResource, vehicleId);
+            var vehicle = await vehicleCommandService.Handle(updateVehicleCommand);
+            if (vehicle is null) return BadRequest();
+            var resource = VehicleResourceFromEntityAssembler.ToResourceFromEntity(vehicle);
+            return Ok(resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while updating the vehicle. " + e.Message });
+        }
     }
     
     [HttpGet]

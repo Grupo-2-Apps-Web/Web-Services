@@ -22,6 +22,11 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     public DbSet<Entrepreneur> Entrepreneurs { get; set; }
     public DbSet<User.Domain.Model.Entities.Configuration> Configurations { get; set; }
 
+    public DbSet<Expense> Expenses { get; set; }
+    public DbSet<Evidence> Evidences { get; set; }
+    public DbSet<OngoingTrip> OngoingTrips { get; set; }
+
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

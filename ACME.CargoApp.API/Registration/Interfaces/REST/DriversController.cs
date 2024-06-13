@@ -14,22 +14,37 @@ public class DriversController(IDriverCommandService driverCommandService, IDriv
     [HttpPost]
     public async Task<IActionResult> CreateDriver([FromBody] CreateDriverResource createDriverResource)
     {
-        var createDriverCommand = CreateDriverCommandFromResourceAssembler.ToCommandFromResource(createDriverResource);
-        var driver = await driverCommandService.Handle(createDriverCommand);
-        if (driver is null) return BadRequest();
-        var resource = DriverResourceFromEntityAssembler.ToResourceFromEntity(driver);
-        return CreatedAtAction(nameof(GetDriverById), new { driverId = resource.Id }, resource);
+        try
+        {
+            var createDriverCommand = CreateDriverCommandFromResourceAssembler.ToCommandFromResource(createDriverResource);
+            var driver = await driverCommandService.Handle(createDriverCommand);
+            if (driver is null) return BadRequest();
+            var resource = DriverResourceFromEntityAssembler.ToResourceFromEntity(driver);
+            return CreatedAtAction(nameof(GetDriverById), new { driverId = resource.Id }, resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while creating the driver. " + e.Message });
+        }
     }
     
     [HttpPut("{driverId}")]
     public async Task<IActionResult> UpdateDriver([FromBody] UpdateDriverResource updateDriverResource, [FromRoute] int driverId)
     {
-        var updateDriverCommand = UpdateDriverCommandFromResourceAssembler.ToCommandFromResource(updateDriverResource, driverId);
-        
-        var driver = await driverCommandService.Handle(updateDriverCommand);
-        if (driver is null) return BadRequest();
-        var resource = DriverResourceFromEntityAssembler.ToResourceFromEntity(driver);
-        return Ok(resource);
+        try
+        {
+            var updateDriverCommand = UpdateDriverCommandFromResourceAssembler.ToCommandFromResource(updateDriverResource, driverId);
+            var driver = await driverCommandService.Handle(updateDriverCommand);
+            if (driver is null) return BadRequest();
+            var resource = DriverResourceFromEntityAssembler.ToResourceFromEntity(driver);
+            return Ok(resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while updating the driver. " + e.Message });
+        }
     }
     
     [HttpGet]

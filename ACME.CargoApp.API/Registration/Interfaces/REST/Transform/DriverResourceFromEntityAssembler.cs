@@ -7,7 +7,6 @@ public static class DriverResourceFromEntityAssembler
 {
     public static DriverResource ToResourceFromEntity(Driver entity)
     {
-        Console.WriteLine("Driver Name is " + entity.Name);
         return new DriverResource(entity.Id, entity.Name, entity.Dni, entity.License, entity.ContactNumber);
     }
 }

@@ -5,5 +5,5 @@ namespace ACME.CargoApp.API.Registration.Domain.Repositories;
 
 public interface IEvidenceRepository : IBaseRepository<Evidence>
 {
-    
+    Task<Evidence?> FindByTripIdAsync(int tripId);
 }

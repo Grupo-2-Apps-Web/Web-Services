@@ -17,8 +17,14 @@ public class EvidenceCommandService(IEvidenceRepository evidenceRepository ,ITri
         {
             throw new ArgumentException("TripId not found.");
         }
+        // Check if an Expense with the same TripId already exists
+        var existingExpense = await evidenceRepository.FindByTripIdAsync(command.TripId);
+        if (existingExpense != null)
+        {
+            throw new InvalidOperationException("An Evidence with the same TripId already exists.");
+        }
         
-        var evidence = new Evidence(command.Link, command.TripId);
+        var evidence = new Evidence(command, trip);
         await evidenceRepository.AddAsync(evidence);
         await unitOfWork.CompleteAsync();
         return evidence;

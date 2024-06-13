@@ -13,22 +13,37 @@ public class UsersController(IUserQueryService userQueryService, IClientQuerySer
     [HttpPost]
     public async Task<IActionResult> CreateUser([FromBody] CreateUserResource createUserResource)
     {
-        var createUserCommand = CreateUserCommandFromResourceAssembler.ToCommandFromResource(createUserResource);
-        var user = await userCommandService.Handle(createUserCommand);
-        if (user is null) return BadRequest();
-        var resource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
-        return CreatedAtAction(nameof(GetUserById), new { userId = resource.Id }, resource);
+        try
+        {
+            var createUserCommand = CreateUserCommandFromResourceAssembler.ToCommandFromResource(createUserResource);
+            var user = await userCommandService.Handle(createUserCommand);
+            if (user is null) return BadRequest();
+            var resource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
+            return CreatedAtAction(nameof(GetUserById), new { userId = resource.Id }, resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while creating the user. " + e.Message });
+        }
     }
     
     [HttpPut("{userId}")]
     public async Task<IActionResult> UpdateUser([FromBody] UpdateUserResource updateUserResource, [FromRoute] int userId)
     {
-        var updateUserCommand = UpdateUserCommandFromResourceAssembler.ToCommandFromResource(updateUserResource, userId);
-        
-        var user = await userCommandService.Handle(updateUserCommand);
-        if (user is null) return BadRequest();
-        var resource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
-        return Ok(resource);
+        try
+        {
+            var updateUserCommand = UpdateUserCommandFromResourceAssembler.ToCommandFromResource(updateUserResource, userId);
+            var user = await userCommandService.Handle(updateUserCommand);
+            if (user is null) return BadRequest();
+            var resource = UserResourceFromEntityAssembler.ToResourceFromEntity(user);
+            return Ok(resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while updating the user. " + e.Message });
+        }
     }
     
     [HttpGet]

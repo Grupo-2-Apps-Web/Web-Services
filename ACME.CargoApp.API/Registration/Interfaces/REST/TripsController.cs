@@ -14,22 +14,37 @@ public class TripsController(ITripQueryService tripQueryService, ITripCommandSer
     [HttpPost]
     public async Task<IActionResult> CreateTrip([FromBody] CreateTripResource createTripResource)
     {
-        var createTripCommand = CreateTripCommandFromResourceAssembler.ToCommandFromResource(createTripResource);
-        var trip = await tripCommandService.Handle(createTripCommand);
-        if (trip is null) return BadRequest();
-        var resource = TripResourceFromEntityAssembler.ToResourceFromEntity(trip);
-        return CreatedAtAction(nameof(GetTripById), new { tripId = resource.Id }, resource);
+        try
+        {
+            var createTripCommand = CreateTripCommandFromResourceAssembler.ToCommandFromResource(createTripResource);
+            var trip = await tripCommandService.Handle(createTripCommand);
+            if (trip is null) return BadRequest();
+            var resource = TripResourceFromEntityAssembler.ToResourceFromEntity(trip);
+            return CreatedAtAction(nameof(GetTripById), new { tripId = resource.Id }, resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while creating the trip. " + e.Message });
+        }
     }
     
     [HttpPut("{tripId}")]
     public async Task<IActionResult> UpdateTrip([FromBody] UpdateTripResource updateTripResource, [FromRoute] int tripId)
     {
-        var updateTripCommand = UpdateTripCommandFromResourceAssembler.ToCommandFromResource(updateTripResource, tripId);
-        
-        var trip = await tripCommandService.Handle(updateTripCommand);
-        if (trip is null) return BadRequest();
-        var resource = TripResourceFromEntityAssembler.ToResourceFromEntity(trip);
-        return Ok(resource);
+        try
+        {
+            var updateTripCommand = UpdateTripCommandFromResourceAssembler.ToCommandFromResource(updateTripResource, tripId);
+            var trip = await tripCommandService.Handle(updateTripCommand);
+            if (trip is null) return BadRequest();
+            var resource = TripResourceFromEntityAssembler.ToResourceFromEntity(trip);
+            return Ok(resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while updating the trip. " + e.Message });
+        }
     }
     
     [HttpGet]

@@ -13,11 +13,19 @@ public class ClientsController(IClientQueryService clientQueryService, IClientCo
     [HttpPost]
     public async Task<IActionResult> CreateClient([FromBody] CreateClientResource createClientResource)
     {
-        var createClientCommand = CreateClientCommandFromResourceAssembler.ToCommandFromResource(createClientResource);
-        var client = await clientCommandService.Handle(createClientCommand);
-        if (client is null) return BadRequest();
-        var resource = ClientResourceFromEntityAssembler.ToResourceFromEntity(client);
-        return CreatedAtAction(nameof(GetClientById), new { clientId = resource.Id }, resource);
+        try
+        {
+            var createClientCommand = CreateClientCommandFromResourceAssembler.ToCommandFromResource(createClientResource);
+            var client = await clientCommandService.Handle(createClientCommand);
+            if (client is null) return BadRequest();
+            var resource = ClientResourceFromEntityAssembler.ToResourceFromEntity(client);
+            return CreatedAtAction(nameof(GetClientById), new { clientId = resource.Id }, resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while creating the client. " + e.Message });
+        }
     }
     
     [HttpGet]

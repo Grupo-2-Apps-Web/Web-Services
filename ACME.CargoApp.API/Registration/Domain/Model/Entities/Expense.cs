@@ -1,4 +1,5 @@
 ﻿using ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
+using ACME.CargoApp.API.Registration.Domain.Model.Commands;
 
 namespace ACME.CargoApp.API.Registration.Domain.Model.Entities;
 
@@ -14,7 +15,7 @@ public class Expense
         TollsDescription = string.Empty;
     }
     
-    public Expense(int fuelAmount, string fuelDescription, int viaticsAmount, string viaticsDescription, int tollsAmount, string tollsDescription, int tripId)
+    public Expense(int fuelAmount, string fuelDescription, int viaticsAmount, string viaticsDescription, int tollsAmount, string tollsDescription, int tripId, Trip trip)
     {
         FuelAmount = fuelAmount;
         FuelDescription = fuelDescription;
@@ -23,7 +24,20 @@ public class Expense
         TollsAmount = tollsAmount;
         TollsDescription = tollsDescription;
         TripId = tripId;
+        Trip = trip;
     }
+    
+    public Expense(CreateExpenseCommand command, Trip trip)
+    {
+        FuelAmount = command.FuelAmount;
+        FuelDescription = command.FuelDescription;
+        ViaticsAmount = command.ViaticsAmount;
+        ViaticsDescription = command.ViaticsDescription;
+        TollsAmount = command.TollsAmount;
+        TollsDescription = command.TollsDescription;
+        Trip = trip;
+    }
+    
     public int Id { get; set; }
     public int FuelAmount { get; set; }
     public string FuelDescription { get; set; }

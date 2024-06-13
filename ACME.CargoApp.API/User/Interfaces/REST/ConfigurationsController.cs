@@ -13,21 +13,38 @@ public class ConfigurationsController (IConfigurationQueryService configurationQ
     [HttpPost]
     public async Task<IActionResult> CreateConfiguration([FromBody] CreateConfigurationResource createConfigurationResource)
     {
-        var createConfigurationCommand = CreateConfigurationCommandFromResourceAssembler.ToCommandFromResource(createConfigurationResource);
-        var configuration = await configurationCommandService.Handle(createConfigurationCommand);
-        if (configuration is null) return BadRequest();
-        var resource = ConfigurationResourceFromEntityAssembler.ToResourceFromEntity(configuration);
-        return CreatedAtAction(nameof(GetConfigurationById), new { configurationId = resource.Id }, resource);
+        try
+        {
+            var createConfigurationCommand = CreateConfigurationCommandFromResourceAssembler.ToCommandFromResource(createConfigurationResource);
+            var configuration = await configurationCommandService.Handle(createConfigurationCommand);
+            if (configuration is null) return BadRequest();
+            var resource = ConfigurationResourceFromEntityAssembler.ToResourceFromEntity(configuration);
+            return CreatedAtAction(nameof(GetConfigurationById), new { configurationId = resource.Id }, resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while creating the configuration. " + e.Message });
+        }
     }
     
     [HttpPut("{configurationId}")]
     public async Task<IActionResult> UpdateConfiguration([FromBody] UpdateConfigurationResource updateConfigurationResource, [FromRoute] int configurationId)
     {
-        var updateConfigurationCommand = UpdateConfigurationCommandFromResourceAssembler.ToCommandFromResource(updateConfigurationResource, configurationId);
-        var configuration = await configurationCommandService.Handle(updateConfigurationCommand);
-        if (configuration is null) return BadRequest();
-        var resource = ConfigurationResourceFromEntityAssembler.ToResourceFromEntity(configuration);
-        return Ok(resource);
+        try
+        {
+            var updateConfigurationCommand = UpdateConfigurationCommandFromResourceAssembler.ToCommandFromResource(updateConfigurationResource, configurationId);
+            var configuration = await configurationCommandService.Handle(updateConfigurationCommand);
+            if (configuration is null) return BadRequest();
+            var resource = ConfigurationResourceFromEntityAssembler.ToResourceFromEntity(configuration);
+            return Ok(resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while updating the configuration. " + e.Message });
+        }
+
     }
     
     [HttpGet]

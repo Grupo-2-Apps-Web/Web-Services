@@ -7,7 +7,6 @@ public class EvidenceResourceFromEntityAssembler
 {
     public static EvidenceResource ToResourceFromEntity(Evidence entity)
     {
-        Console.WriteLine("Evidence link is " + entity.Link);
         return new EvidenceResource(entity.Id, entity.Link, entity.TripId);
     }
 }
