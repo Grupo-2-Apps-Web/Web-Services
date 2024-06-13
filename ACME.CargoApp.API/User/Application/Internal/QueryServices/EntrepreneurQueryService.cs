@@ -16,4 +16,9 @@ public class EntrepreneurQueryService(IEntrepreneurRepository entrepreneurReposi
     {
         return await entrepreneurRepository.FindByIdAsync(query.EntrepreneurId);
     }
+    
+    public async Task<Entrepreneur?> Handle(GetEntrepreneurByUserIdQuery query)
+    {
+        return await entrepreneurRepository.FindByUserIdAsync(query.UserId);
+    }
 }
