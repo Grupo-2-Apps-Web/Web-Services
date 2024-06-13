@@ -16,6 +16,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         // Enable Audit Fields Interceptors
         builder.AddCreatedUpdatedInterceptor();
     }
+    
+    public DbSet<User.Domain.Model.Aggregates.User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

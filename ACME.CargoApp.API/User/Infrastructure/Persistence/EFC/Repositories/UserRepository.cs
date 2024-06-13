@@ -6,4 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ACME.CargoApp.API.User.Infrastructure.Persistence.EFC.Repositories;
 
-public class UserRepository(AppDbContext context) : BaseRepository<Domain.Model.Aggregates.User>(context), IUserRepository;
+public class UserRepository(AppDbContext context)
+    : BaseRepository<Domain.Model.Aggregates.User>(context), IUserRepository
+{
+    public async Task<Domain.Model.Aggregates.User?> FindByEmailAsync(string email)
+    {
+        return await context.Users.FirstOrDefaultAsync(u => u.UserAuthentication.Email == email);
+    }
+}
