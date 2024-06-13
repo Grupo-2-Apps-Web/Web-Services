@@ -5,5 +5,5 @@ namespace ACME.CargoApp.API.User.Domain.Repositories;
 
 public interface IEntrepreneurRepository : IBaseRepository<Entrepreneur>
 {
-    
+    Task<Entrepreneur?> FindByUserIdAsync(int userId);
 }
