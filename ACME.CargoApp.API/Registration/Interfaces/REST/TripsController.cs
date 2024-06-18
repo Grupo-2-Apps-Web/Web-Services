@@ -21,6 +21,7 @@ public class TripsController(ITripQueryService tripQueryService, ITripCommandSer
             if (trip is null) return BadRequest();
             var resource = TripResourceFromEntityAssembler.ToResourceFromEntity(trip);
             return CreatedAtAction(nameof(GetTripById), new { tripId = resource.Id }, resource);
+            
         }
         catch (Exception e)
         {
@@ -56,12 +57,40 @@ public class TripsController(ITripQueryService tripQueryService, ITripCommandSer
         return Ok(resources);
     }
     
+    
+    
     [HttpGet("{tripId}")]
     public async Task<IActionResult> GetTripById([FromRoute] int tripId)
     {
         var trip = await tripQueryService.Handle(new GetTripByIdQuery(tripId));
         if (trip == null) return NotFound();
         var resource = TripResourceFromEntityAssembler.ToResourceFromEntity(trip);
+        return Ok(resource);
+    }
+    
+    [HttpGet("{tripId}/alerts")]
+    public async Task<IActionResult> GetAlertsByTripId([FromRoute] int tripId)
+    {
+        var alerts = await tripQueryService.Handle(new GetAlertsByTripIdQuery(tripId));
+        if (alerts == null) return NotFound();
+        var resources = alerts.Select(AlertResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(resources);
+    }
+    [HttpGet("{tripId}/ongoingTrips")]
+    public async Task<IActionResult> GetOnGoingByTripId([FromRoute] int tripId)
+    {
+        var alerts = await tripQueryService.Handle(new GetAlertsByTripIdQuery(tripId));
+        if (alerts == null) return NotFound();
+        var resources = alerts.Select(AlertResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(resources);
+    }
+
+    [HttpGet("{tripId}/evidences")]
+    public async Task<IActionResult> GetEvidencesByTripId([FromRoute] int tripId)
+    {
+        var evidence = await tripQueryService.Handle(new GetEvidencesByTripIdQuery(tripId));
+        if (evidence == null) return NotFound();
+        var resource = EvidenceResourceFromEntityAssembler.ToResourceFromEntity(evidence);
         return Ok(resource);
     }
     
