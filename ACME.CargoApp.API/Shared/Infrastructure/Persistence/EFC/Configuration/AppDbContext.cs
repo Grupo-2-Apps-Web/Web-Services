@@ -221,7 +221,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
        builder.Entity<User.Domain.Model.Entities.Configuration>().Property(c => c.View).IsRequired().HasMaxLength(100);
        builder.Entity<User.Domain.Model.Entities.Configuration>().Property(c => c.AllowDataCollection).IsRequired();
        builder.Entity<User.Domain.Model.Entities.Configuration>().Property(c => c.UpdateDataSharing).IsRequired();
-        
        // Configuration table relationships
        
        builder.Entity<User.Domain.Model.Entities.Configuration>()
@@ -229,7 +228,16 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
            .WithOne(u => u.Configuration)
            .HasForeignKey<User.Domain.Model.Entities.Configuration>(c => c.UserId)
            .HasPrincipalKey<User.Domain.Model.Aggregates.User>(u => u.Id);
+       
+       // IAM Context
+       builder.Entity<IAM.Domain.Model.Aggregates.User>().ToTable("IamUser");
         
+       builder.Entity<IAM.Domain.Model.Aggregates.User>().HasKey(u => u.Id);
+       builder.Entity<IAM.Domain.Model.Aggregates.User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
+       builder.Entity<IAM.Domain.Model.Aggregates.User>().Property(u => u.Username).IsRequired();
+       builder.Entity<IAM.Domain.Model.Aggregates.User>().Property(u => u.PasswordHash).IsRequired(); 
+       
+       
         // Apply SnakeCase Naming Convention
         builder.UseSnakeCaseWithPluralizedTableNamingConvention();
     }
