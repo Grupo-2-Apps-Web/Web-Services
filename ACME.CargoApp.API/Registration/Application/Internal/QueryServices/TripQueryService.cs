@@ -6,7 +6,7 @@ using ACME.CargoApp.API.Registration.Domain.Services;
 
 namespace ACME.CargoApp.API.Registration.Application.Internal.QueryServices;
 
-public class TripQueryService(ITripRepository tripRepository, IEvidenceRepository evidenceRepository, IAlertRepository alertRepository)
+public class TripQueryService(ITripRepository tripRepository, IEvidenceRepository evidenceRepository, IAlertRepository alertRepository, IOngoingTripRepository ongoingTripRepository)
     : ITripQueryService
 {
     public async Task<Trip?> Handle(GetTripByIdQuery query)
@@ -26,6 +26,11 @@ public class TripQueryService(ITripRepository tripRepository, IEvidenceRepositor
     public async Task<IEnumerable<Alert>> Handle(GetAlertsByTripIdQuery query)
     { 
         return await alertRepository.FindByTripIdAsync(query.TripId);
+    }
+    
+    public async Task<IEnumerable<OngoingTrip>> Handle(GetOngGoingTripByIdQuery query)
+    { 
+        return await ongoingTripRepository.FindOngoingByTripIdAsync(query.TripId);
     }
     
     

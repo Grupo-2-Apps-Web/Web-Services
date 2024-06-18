@@ -19,5 +19,10 @@ public class OngoingTripRepository : BaseRepository<OngoingTrip>, IOngoingTripRe
     {
         return await _context.OngoingTrips.FirstOrDefaultAsync(e => e.TripId == tripId);
     }
+    
+    public async Task<IEnumerable<OngoingTrip>> FindOngoingByTripIdAsync(int tripId)
+    {
+        return await _context.OngoingTrips.Where(e => e.TripId == tripId).ToListAsync();
+    }
      
 }
