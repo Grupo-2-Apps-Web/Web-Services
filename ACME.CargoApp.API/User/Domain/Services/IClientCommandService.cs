@@ -7,4 +7,5 @@ namespace ACME.CargoApp.API.User.Domain.Services;
 public interface IClientCommandService
 {
     Task<Client?> Handle(CreateClientCommand createClientCommand);
+    Task<Client?> Handle(UpdateClientCommand updateClientCommand);
 }

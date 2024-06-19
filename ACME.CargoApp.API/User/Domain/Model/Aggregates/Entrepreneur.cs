@@ -34,6 +34,16 @@ public class Entrepreneur
         User = user;
     }
     
+    public void Update(UpdateEntrepreneurCommand command)
+    {
+        Name = command.Name;
+        Phone = command.Phone;
+        Ruc = command.Ruc;
+        Address = command.Address;
+        Subscription = command.Subscription;
+        LogoImage = command.LogoImage;
+    }
+    
     public int Id { get; set; }
     public string Name { get; set; }
     public string Phone { get; set; }

@@ -31,4 +31,25 @@ public class ClientCommandService(IClientRepository clientRepository, IUserRepos
             return null;
         }
     }
+    
+    public async Task<Client?> Handle(UpdateClientCommand command)
+    {
+        var client = await clientRepository.FindByIdAsync(command.UserId);
+        if (client == null)
+        {
+            throw new ArgumentException("Client not found.");
+        }
+        // Update the client
+        client.Update(command);
+        try
+        {
+            await unitOfWork.CompleteAsync();
+            return client;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"An error occurred while updating the client: {e.Message}");
+            return null;
+        }
+    }
 }

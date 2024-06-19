@@ -31,4 +31,25 @@ public class EntrepreneurCommandService(IEntrepreneurRepository entrepreneurRepo
             return null;
         }
     }
+    
+    public async Task<Entrepreneur?> Handle(UpdateEntrepreneurCommand command)
+    {
+        var entrepreneur = await entrepreneurRepository.FindByIdAsync(command.UserId);
+        if (entrepreneur == null)
+        {
+            throw new ArgumentException("Entrepreneur not found.");
+        }
+        // Update the entrepreneur
+        entrepreneur.Update(command);
+        try
+        {
+            await unitOfWork.CompleteAsync();
+            return entrepreneur;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"An error occurred while updating the entrepreneur: {e.Message}");
+            return null;
+        }
+    }
 }

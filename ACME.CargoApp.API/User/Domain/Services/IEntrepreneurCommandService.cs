@@ -7,4 +7,5 @@ namespace ACME.CargoApp.API.User.Domain.Services;
 public interface IEntrepreneurCommandService
 {
     Task<Entrepreneur?> Handle(CreateEntrepreneurCommand createEntrepreneurCommand);
+    Task<Entrepreneur?> Handle(UpdateEntrepreneurCommand updateEntrepreneurCommand);
 }

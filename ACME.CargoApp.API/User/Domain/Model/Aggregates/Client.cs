@@ -33,6 +33,15 @@ public class Client
         User = user;
     }
     
+    public void Update(UpdateClientCommand command)
+    {
+        Name = command.Name;
+        Phone = command.Phone;
+        Ruc = command.Ruc;
+        Address = command.Address;
+        Subscription = command.Subscription;
+    }
+    
     
     public int Id { get; set; }
     public string Name { get; set; }
