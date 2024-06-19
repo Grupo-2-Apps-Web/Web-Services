@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CargoApp.UnitTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4d0c8197320ee4dd89f9d55a94d3270da1a2e6ea")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d92184f3be359bc56ca7addc282d3ac0005e724f")]
 [assembly: System.Reflection.AssemblyProductAttribute("CargoApp.UnitTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CargoApp.UnitTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
