@@ -1,4 +1,5 @@
-﻿using ACME.CargoApp.API.User.Domain.Model.Aggregates;
+﻿using ACME.CargoApp.API.IAM.Domain.Model.Aggregates;
+using ACME.CargoApp.API.User.Domain.Model.Aggregates;
 using ACME.CargoApp.API.User.Domain.Model.Entities;
 using ACME.CargoApp.API.User.Domain.Repositories;
 using Moq;
@@ -11,13 +12,11 @@ public class EntrepreneurUnitTest
     public async Task GetAll_Entrepreneur_Success()
     {
         // Arrange
-        var userEntrepreneur1 = new User("Lucho Vega", "986559213", "20000000002", "Av. Peru 123",
-            "empresario@gmail.com", "micontrasecreta", "Premium");
-        var entrepreneur1 = new Entrepreneur(1, "logo.com/image.jpeg", userEntrepreneur1);
+        var userEntrepreneur1 = new User("lucho@gmail.com", "contra1234567");
+        var entrepreneur1 = new Entrepreneur("Lucho Vega", "986559213", "20000000002", "Av. Peru 123", "Premium", "logo.com/image.jpeg", 1, userEntrepreneur1);
 
-        var userEntrepreneur2 = new User("Carlos Perez", "986559214", "20000000003", "Av. Lima 123",
-            "empresario2@gmail.com", "micontrasecreta2", "Premium");
-        var entrepreneur2 = new Entrepreneur(2, "logo2.com/image.jpeg", userEntrepreneur2);
+        var userEntrepreneur2 = new User("carlos@gmail.com", "contra1234567");
+        var entrepreneur2 = new Entrepreneur("Carlos Perez", "986559214", "20000000003", "Av. Lima 123", "Premium", "logo2.com/image.jpeg", 2, userEntrepreneur2);
 
         var entrepreneurs = new List<Entrepreneur> { entrepreneur1, entrepreneur2 };
 
@@ -39,9 +38,8 @@ public class EntrepreneurUnitTest
         // Arrange
         int validId = 1;
         int invalidId = 0;
-        var userEntrepreneur = new User("Lucho Vega", "986559213", "20000000002", "Av. Peru 123",
-            "empresario@gmail.com", "micontrasecreta", "Premium");
-        var entrepreneur = new Entrepreneur(validId, "logo.com/image.jpeg", userEntrepreneur);
+        var userEntrepreneur1 = new User("lucho@gmail.com", "contra1234567");
+        var entrepreneur = new Entrepreneur("Lucho Vega", "986559213", "20000000002", "Av. Peru 123", "Premium", "logo.com/image.jpeg", 1, userEntrepreneur1);
         var mockEntrepreneurRepository = new Mock<IEntrepreneurRepository>();
         mockEntrepreneurRepository.Setup(repo => repo.FindByIdAsync(validId)).ReturnsAsync(entrepreneur);
         mockEntrepreneurRepository.Setup(repo => repo.FindByIdAsync(invalidId)).ReturnsAsync((Entrepreneur)null);
@@ -60,9 +58,8 @@ public class EntrepreneurUnitTest
     public async Task Add_Entrepreneur_Success()
     {
         // Arrange
-        var userEntrepreneur = new User("Lucho Vega", "986559213", "20000000002", "Av. Peru 123",
-            "empresario@gmail.com", "micontrasecreta", "Premium");
-        var entrepreneur = new Entrepreneur(1, "logo.com/image.jpeg", userEntrepreneur);
+        var userEntrepreneur1 = new User("lucho@gmail.com", "contra1234567");
+        var entrepreneur = new Entrepreneur("Lucho Vega", "986559213", "20000000002", "Av. Peru 123", "Premium", "logo.com/image.jpeg", 1, userEntrepreneur1);
         var mockEntrepreneurRepository = new Mock<IEntrepreneurRepository>();
         mockEntrepreneurRepository.Setup(repo => repo.AddAsync(entrepreneur)).Returns(Task.CompletedTask);
 

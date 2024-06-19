@@ -1,5 +1,6 @@
 ﻿using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using ACME.CargoApp.API.User.Domain.Model.Aggregates;
 using ACME.CargoApp.API.User.Domain.Model.Entities;
 using ACME.CargoApp.API.User.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;

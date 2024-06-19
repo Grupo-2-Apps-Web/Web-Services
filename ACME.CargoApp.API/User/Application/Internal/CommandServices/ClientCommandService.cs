@@ -1,4 +1,6 @@
-﻿using ACME.CargoApp.API.Shared.Domain.Repositories;
+﻿using ACME.CargoApp.API.IAM.Domain.Repositories;
+using ACME.CargoApp.API.Shared.Domain.Repositories;
+using ACME.CargoApp.API.User.Domain.Model.Aggregates;
 using ACME.CargoApp.API.User.Domain.Model.Commands;
 using ACME.CargoApp.API.User.Domain.Model.Entities;
 using ACME.CargoApp.API.User.Domain.Repositories;
@@ -16,7 +18,7 @@ public class ClientCommandService(IClientRepository clientRepository, IUserRepos
             throw new ArgumentException("UserId not found.");
         }
         // Create the client
-        var client = new Client(command.UserId, user);
+        var client = new Client(command, user);
         try
         {
             await clientRepository.AddAsync(client);

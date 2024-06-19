@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using ACME.CargoApp.API.User.Domain.Model.Aggregates;
+using ACME.CargoApp.API.User.Domain.Model.Entities;
 
 namespace ACME.CargoApp.API.IAM.Domain.Model.Aggregates;
 
@@ -46,4 +48,10 @@ public class User(string username, string passwordHash)
         PasswordHash = passwordHash;
         return this;
     }
+    
+    public Client Client { get; internal set; }
+    
+    public Entrepreneur Entrepreneur { get; internal set; }
+    
+    public Configuration Configuration { get; internal set; }
 }

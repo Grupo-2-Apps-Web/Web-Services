@@ -1,4 +1,6 @@
-﻿using ACME.CargoApp.API.Shared.Domain.Repositories;
+﻿using ACME.CargoApp.API.IAM.Domain.Repositories;
+using ACME.CargoApp.API.Shared.Domain.Repositories;
+using ACME.CargoApp.API.User.Domain.Model.Aggregates;
 using ACME.CargoApp.API.User.Domain.Model.Commands;
 using ACME.CargoApp.API.User.Domain.Model.Entities;
 using ACME.CargoApp.API.User.Domain.Repositories;
@@ -16,7 +18,7 @@ public class EntrepreneurCommandService(IEntrepreneurRepository entrepreneurRepo
             throw new ArgumentException("UserId not found.");
         }
         // Create the entrepreneur
-        var entrepreneur = new Entrepreneur(command.UserId, command.LogoImage, user);
+        var entrepreneur = new Entrepreneur(command, user);
         try
         {
             await entrepreneurRepository.AddAsync(entrepreneur);
