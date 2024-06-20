@@ -1,4 +1,7 @@
-﻿using ACME.CargoApp.API.User.Domain.Model.Queries;
+﻿using ACME.CargoApp.API.Registration.Domain.Model.Queries;
+using ACME.CargoApp.API.Registration.Domain.Services;
+using ACME.CargoApp.API.Registration.Interfaces.REST.Transform;
+using ACME.CargoApp.API.User.Domain.Model.Queries;
 using ACME.CargoApp.API.User.Domain.Services;
 using ACME.CargoApp.API.User.Interfaces.REST.Resources;
 using ACME.CargoApp.API.User.Interfaces.REST.Transform;
@@ -8,7 +11,8 @@ namespace ACME.CargoApp.API.User.Interfaces.REST;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class ClientsController(IClientQueryService clientQueryService, IClientCommandService clientCommandService) : ControllerBase
+public class ClientsController(IClientQueryService clientQueryService, IClientCommandService clientCommandService,
+    ITripQueryService tripQueryService) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> CreateClient([FromBody] CreateClientResource createClientResource)
@@ -62,5 +66,13 @@ public class ClientsController(IClientQueryService clientQueryService, IClientCo
             Console.WriteLine(e);
             return BadRequest(new { message = "An error occurred while updating the client. " + e.Message });
         }
+    }
+
+    [HttpGet("{clientId}/trips")]
+    public async Task<IActionResult> GetTripsByClientId([FromRoute] int clientId)
+    {
+        var trips = await tripQueryService.Handle(new GetTripsByClientIdQuery(clientId));
+        var resources = trips.Select(TripResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(resources);
     }
 }

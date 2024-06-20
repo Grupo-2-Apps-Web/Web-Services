@@ -1,4 +1,7 @@
-﻿using ACME.CargoApp.API.User.Domain.Model.Queries;
+﻿using ACME.CargoApp.API.Registration.Domain.Model.Queries;
+using ACME.CargoApp.API.Registration.Domain.Services;
+using ACME.CargoApp.API.Registration.Interfaces.REST.Transform;
+using ACME.CargoApp.API.User.Domain.Model.Queries;
 using ACME.CargoApp.API.User.Domain.Services;
 using ACME.CargoApp.API.User.Interfaces.REST.Resources;
 using ACME.CargoApp.API.User.Interfaces.REST.Transform;
@@ -8,7 +11,8 @@ namespace ACME.CargoApp.API.User.Interfaces.REST;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class EntrepreneursController (IEntrepreneurQueryService entrepreneurQueryService, IEntrepreneurCommandService entrepreneurCommandService) : ControllerBase
+public class EntrepreneursController (IEntrepreneurQueryService entrepreneurQueryService, IEntrepreneurCommandService entrepreneurCommandService,
+    ITripQueryService tripQueryService) : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> CreateEntrepreneur([FromBody] CreateEntrepreneurResource createEntrepreneurResource)
@@ -62,5 +66,13 @@ public class EntrepreneursController (IEntrepreneurQueryService entrepreneurQuer
             Console.WriteLine(e);
             return BadRequest(new { message = "An error occurred while updating the entrepreneur. " + e.Message });
         }
+    }
+    
+    [HttpGet("{entrepreneurId}/trips")]
+    public async Task<IActionResult> GetTripsByEntrepreneurId([FromRoute] int entrepreneurId)
+    {
+        var trips = await tripQueryService.Handle(new GetTripsByEntrepreneurIdQuery(entrepreneurId));
+        var resources = trips.Select(TripResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(resources);
     }
 }

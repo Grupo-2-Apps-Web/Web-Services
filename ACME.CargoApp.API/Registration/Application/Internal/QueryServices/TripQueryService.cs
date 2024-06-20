@@ -33,6 +33,15 @@ public class TripQueryService(ITripRepository tripRepository, IEvidenceRepositor
         return await ongoingTripRepository.FindOngoingByTripIdAsync(query.TripId);
     }
     
+    public async Task<IEnumerable<Trip>> Handle(GetTripsByClientIdQuery query)
+    {
+        return await tripRepository.FindByClientIdAsync(query.ClientId);
+    }
+    
+    public async Task<IEnumerable<Trip>> Handle(GetTripsByEntrepreneurIdQuery query)
+    {
+        return await tripRepository.FindByEntrepreneurIdAsync(query.EntrepreneurId);
+    }
     
 }
 
