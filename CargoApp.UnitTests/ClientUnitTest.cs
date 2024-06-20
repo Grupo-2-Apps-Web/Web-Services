@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using ACME.CargoApp.API.IAM.Domain.Model.Aggregates;
+using Moq;
 using ACME.CargoApp.API.User.Domain.Model.Aggregates;
 using ACME.CargoApp.API.User.Domain.Model.Entities;
 using ACME.CargoApp.API.User.Domain.Repositories;
@@ -11,12 +12,12 @@ namespace CargoApp.UnitTests
         public async Task GetAll_Client_Success()
         {
             // Arrange
-            var userClient = new User("Juan Perez", "926559113", "20000000001", "Av. Lima 123", "cliente@gmail.com", "contra1234567", "Premium");
-            var userClientTwo = new User("Pedro Sanchez", "986559213", "20000000002", "Av. Peru 123", "cliente2@gmial.com", "contra1234567", "Basic");
+            var userClient = new User("juan@gmail.com", "contra1234567");
+            var userClientTwo = new User("juan2@gmail.com", "contra1234567");
             List<Client> clients = new List<Client>
             {
-                new Client(1, userClient),
-                new Client(2, userClientTwo)
+                new Client("Juan Perez", "986559113", "20000000001", "Av. Lima 123", "Premium", 1, userClient),
+                new Client("Juan Sanchez", "986559113", "20000000001", "Av. Lima 123", "Basic", 2, userClientTwo)
             };
             var mockClientRepository = new Mock<IClientRepository>();
             mockClientRepository.Setup(repo => repo.ListAsync()).ReturnsAsync(clients);
@@ -36,8 +37,8 @@ namespace CargoApp.UnitTests
             // Arrange
             int validId = 1;
             int invalidId = 0;
-            var userClient = new User("Juan Perez", "986559113", "20000000001", "Av. Lima 123", "cliente@gmail.com", "contra1234567", "Premium");
-            var client = new Client(validId, userClient);
+            var userClient = new User("juan@gmail.com", "contra1234567");
+            var client = new Client("Juan Perez", "986559113", "20000000001", "Av. Lima 123", "Premium", validId, userClient);
             var mockClientRepository = new Mock<IClientRepository>();
             mockClientRepository.Setup(repo => repo.FindByIdAsync(validId)).ReturnsAsync(client);
             mockClientRepository.Setup(repo => repo.FindByIdAsync(invalidId)).ReturnsAsync((Client)null);
@@ -57,8 +58,8 @@ namespace CargoApp.UnitTests
         public async Task Add_Client_Success()
         {
             // Arrange
-            var userClient = new User("Juan Perez", "986559113", "20000000001", "Av. Lima 123", "cliente@gmail.com", "contra1234567", "Premium");
-            var client = new Client(1, userClient);
+            var userClient = new User("juan@gmail.com", "contra1234567");
+            var client = new Client("Juan Perez", "986559113", "20000000001", "Av. Lima 123", "Premium", 1, userClient);
             var mockClientRepository = new Mock<IClientRepository>();
             mockClientRepository.Setup(repo => repo.AddAsync(client)).Returns(Task.CompletedTask);
 

@@ -1,3 +1,3 @@
 ﻿namespace ACME.CargoApp.API.User.Interfaces.REST.Resources;
 
-public record CreateClientResource(int UserId);
+public record CreateClientResource(string Name, string Phone, string Ruc, string Address, string Subscription, int UserId);
