@@ -2,7 +2,20 @@
 using ACME.CargoApp.API.Registration.Domain.Repositories;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ACME.CargoApp.API.Registration.Infrastructure.Persistence.EFC.Repositories;
 
-public class AlertRepository (AppDbContext context) : BaseRepository<Alert>(context), IAlertRepository;
+public class AlertRepository : BaseRepository<Alert>, IAlertRepository
+{
+    private readonly AppDbContext _context;
+
+    public AlertRepository(AppDbContext context) : base(context)
+    {
+        _context = context;
+    }
+    public async Task<IEnumerable<Alert>> FindByTripIdAsync(int tripId)
+    {
+        return await _context.Alerts.Where(a => a.TripId == tripId).ToListAsync();
+    }
+}
