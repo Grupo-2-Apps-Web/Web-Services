@@ -1,4 +1,5 @@
-﻿using ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
+﻿using ACME.CargoApp.API.IAM.Domain.Model.Aggregates;
+using ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
 using ACME.CargoApp.API.Registration.Domain.Model.Entities;
 using ACME.CargoApp.API.Registration.Domain.Repositories;
 using ACME.CargoApp.API.User.Domain.Model.Aggregates;
@@ -16,12 +17,10 @@ public class TripUnitTest
         
         var driver = new Driver("Juan Perez", "12345678", "Brevete A1", "955123456");
         var vehicle = new Vehicle("Volkswagen", "A1B-234", "A1B-235", 5000, 35);
-        var userClient = new User("Juan Perez", "986559113", "20000000001", "Av. Lima 123",
-            "cliente@gmail.com", "contra1234567", "Basic");
-        var userEntrepreneur = new User("Lucho Vega", "986559213", "20000000002", "Av. Peru 123",
-            "empresario@gmail.com", "micontrasecreta", "Premium");
-        var client = new Client(1, userClient);
-        var entrepreneur = new Entrepreneur(2, "image.com/logo.url", userEntrepreneur);
+        var userClient = new User("juan@gmail.com", "contra123");
+        var userEntrepreneur = new User("lucho@gmail.com", "contra123");
+        var client = new Client("Juan Perez", "986559113", "20000000001", "Av. Lima 123", "Basic", 1, userClient);
+        var entrepreneur = new Entrepreneur("Lucho Vega", "986559213", "20000000002", "Av. Peru 123", "Premium", "logo.com/image.jpeg", 1, userEntrepreneur);
         
         var trips = new List<Trip>
         {
@@ -55,13 +54,11 @@ public class TripUnitTest
 
         var driver = new Driver("Juan Perez", "12345678", "Brevete A1", "955123456");
         var vehicle = new Vehicle("Volkswagen", "A1B-234", "A1B-235", 5000, 35);
-        var userClient = new User("Juan Perez", "986559113", "20000000001", "Av. Lima 123", "cliente@gmail.com",
-            "contra1234567", "Basic");
-        var userEntrepreneur = new User("Lucho Vega", "986559213", "20000000002", "Av. Peru 123",
-            "empresario@gmail.com", "micontrasecreta", "Premium");
-        var client = new Client(1, userClient);
-        var entrepreneur = new Entrepreneur(2, "image.com/logo.url", userEntrepreneur);
-        
+        var userClient = new User("juan@gmail.com", "contra123");
+        var userEntrepreneur = new User("lucho@gmail.com", "contra123");
+        var client = new Client("Juan Perez", "986559113", "20000000001", "Av. Lima 123", "Basic", 1, userClient);
+        var entrepreneur = new Entrepreneur("Lucho Vega", "986559213", "20000000002", "Av. Peru 123", "Premium", "logo.com/image.jpeg", 1, userEntrepreneur);
+
         var trip = new Trip("Viaje 1", "Tecnologia", 500, 
             "Av. San Borja Sur", new DateTime(2024, 07, 05), 
             "Av. San Borja Norte", new DateTime(2024, 07, 06), 
@@ -88,12 +85,10 @@ public class TripUnitTest
         //Arrange
         var driver = new Driver("Juan Perez", "12345678", "Brevete A1", "955123456");
         var vehicle = new Vehicle("Volkswagen", "A1B-234", "A1B-235", 5000, 35);
-        var userClient = new User("Juan Perez", "986559113", "20000000001", "Av. Lima 123", "cliente@gmail.com",
-            "contra1234567", "Basic");
-        var userEntrepreneur = new User("Lucho Vega", "986559213", "20000000002", "Av. Peru 123",
-            "empresario@gmail.com", "micontrasecreta", "Premium");
-        var client = new Client(1, userClient);
-        var entrepreneur = new Entrepreneur(2, "image.com/logo.url", userEntrepreneur);
+       var userClient = new User("juan@gmail.com", "contra123");
+        var userEntrepreneur = new User("lucho@gmail.com", "contra123");
+        var client = new Client("Juan Perez", "986559113", "20000000001", "Av. Lima 123", "Basic", 1, userClient);
+        var entrepreneur = new Entrepreneur("Lucho Vega", "986559213", "20000000002", "Av. Peru 123", "Premium", "logo.com/image.jpeg", 1, userEntrepreneur);
         
         var trip = new Trip("Viaje 1", "Tecnologia", 500, 
             "Av. San Borja Sur", new DateTime(2024, 07, 05), 
@@ -116,12 +111,10 @@ public class TripUnitTest
         // Arrange
         var driver = new Driver("Juan Perez", "12345678", "Brevete A1", "955123456");
         var vehicle = new Vehicle("Volkswagen", "A1B-234", "A1B-235", 5000, 35);
-        var userClient = new User("Juan Perez", "986559113", "20000000001", "Av. Lima 123", "cliente@gmail.com",
-            "contra1234567", "Basic");
-        var userEntrepreneur = new User("Lucho Vega", "986559213", "20000000002", "Av. Peru 123",
-            "empresario@gmail.com", "micontrasecreta", "Premium");
-        var client = new Client(1, userClient);
-        var entrepreneur = new Entrepreneur(2, "image.com/logo.url", userEntrepreneur);
+        var userClient = new User("juan@gmail.com", "contra123");
+        var userEntrepreneur = new User("lucho@gmail.com", "contra123");
+        var client = new Client("Juan Perez", "986559113", "20000000001", "Av. Lima 123", "Basic", 1, userClient);
+        var entrepreneur = new Entrepreneur("Lucho Vega", "986559213", "20000000002", "Av. Peru 123", "Premium", "logo.com/image.jpeg", 1, userEntrepreneur);
 
         var trip = new Trip("Viaje 1", "Tecnologia", 500,
             "Av. San Borja Sur", new DateTime(2024, 07, 05),

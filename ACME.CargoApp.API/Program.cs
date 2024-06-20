@@ -1,3 +1,15 @@
+using ACME.CargoApp.API.IAM.Application.Internal.CommandServices;
+using ACME.CargoApp.API.IAM.Application.Internal.OutboundServices;
+using ACME.CargoApp.API.IAM.Application.Internal.QueryServices;
+using ACME.CargoApp.API.IAM.Domain.Repositories;
+using ACME.CargoApp.API.IAM.Domain.Services;
+using ACME.CargoApp.API.IAM.Infrastructure.Hashing.BCrypt.Services;
+using ACME.CargoApp.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using ACME.CargoApp.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
+using ACME.CargoApp.API.IAM.Infrastructure.Tokens.JWT.Configuration;
+using ACME.CargoApp.API.IAM.Infrastructure.Tokens.JWT.Services;
+using ACME.CargoApp.API.IAM.Interfaces.ACL;
+using ACME.CargoApp.API.IAM.Interfaces.ACL.Services;
 using ACME.CargoApp.API.Registration.Application.Internal.CommandServices;
 using ACME.CargoApp.API.Registration.Application.Internal.QueryServices;
 using ACME.CargoApp.API.Registration.Domain.Repositories;
@@ -35,7 +47,7 @@ builder.Services.AddCors(options =>
 });
 
 // Add Database Connection
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("LocalConnection");
 
 // Configure Database Context and Logging Levels
 builder.Services.AddDbContext<AppDbContext>(
@@ -77,6 +89,29 @@ builder.Services.AddSwaggerGen(
             }
             );
         c.EnableAnnotations();
+        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter token",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "bearer"
+        });
+        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Id = "Bearer",
+                        Type = ReferenceType.SecurityScheme
+                    }
+                },
+                Array.Empty<string>()
+            }
+        });
     });
 
 // Configure Lowercase URLs
@@ -114,20 +149,28 @@ builder.Services.AddScoped<IAlertQueryService, AlertQueryService>();
 builder.Services.AddScoped<IOngoingTripQueryService, OngoingTripQueryService>();
 // User Bounded Context Injection Configuration
 // Repositories
-builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IEntrepreneurRepository, EntrepreneurRepository>();
 builder.Services.AddScoped<IConfigurationRepository, ConfigurationRepository>();
 // Commands
-builder.Services.AddScoped<IUserCommandService, UserCommandService>();
 builder.Services.AddScoped<IClientCommandService, ClientCommandService>();
 builder.Services.AddScoped<IEntrepreneurCommandService, EntrepreneurCommandService>();
 builder.Services.AddScoped<IConfigurationCommandService, ConfigurationCommandService>();
 // Queries
-builder.Services.AddScoped<IUserQueryService, UserQueryService>();
 builder.Services.AddScoped<IClientQueryService, ClientQueryService>();
 builder.Services.AddScoped<IEntrepreneurQueryService, EntrepreneurQueryService>();
 builder.Services.AddScoped<IConfigurationQueryService, ConfigurationQueryService>();
+
+// TokenSettings Configuration
+
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 
 var app = builder.Build();
 
@@ -146,9 +189,11 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 app.UseCors("AllowAll");
+// Add Authorization Middleware to Pipeline
+app.UseRequestAuthorization();
+
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

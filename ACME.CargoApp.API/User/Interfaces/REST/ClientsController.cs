@@ -45,4 +45,22 @@ public class ClientsController(IClientQueryService clientQueryService, IClientCo
         var resource = ClientResourceFromEntityAssembler.ToResourceFromEntity(client);
         return Ok(resource);
     }
+    
+    [HttpPut("{clientId}")]
+    public async Task<IActionResult> UpdateClient([FromBody] UpdateClientResource updateClientResource, [FromRoute] int clientId)
+    {
+        try
+        {
+            var updateClientCommand = UpdateClientCommandFromResourceAssembler.ToCommandFromResource(updateClientResource, clientId);
+            var client = await clientCommandService.Handle(updateClientCommand);
+            if (client is null) return BadRequest();
+            var resource = ClientResourceFromEntityAssembler.ToResourceFromEntity(client);
+            return Ok(resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while updating the client. " + e.Message });
+        }
+    }
 }

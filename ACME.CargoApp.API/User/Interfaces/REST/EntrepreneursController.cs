@@ -45,4 +45,22 @@ public class EntrepreneursController (IEntrepreneurQueryService entrepreneurQuer
         var resource = EntrepreneurResourceFromEntityAssembler.ToResourceFromEntity(entrepreneur);
         return Ok(resource);
     }
+    
+    [HttpPut("{entrepreneurId}")]
+    public async Task<IActionResult> UpdateEntrepreneur([FromBody] UpdateEntrepreneurResource updateEntrepreneurResource, [FromRoute] int entrepreneurId)
+    {
+        try
+        {
+            var updateEntrepreneurCommand = UpdateEntrepreneurCommandFromResourceAssembler.ToCommandFromResource(updateEntrepreneurResource, entrepreneurId);
+            var entrepreneur = await entrepreneurCommandService.Handle(updateEntrepreneurCommand);
+            if (entrepreneur is null) return BadRequest();
+            var resource = EntrepreneurResourceFromEntityAssembler.ToResourceFromEntity(entrepreneur);
+            return Ok(resource);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(new { message = "An error occurred while updating the entrepreneur. " + e.Message });
+        }
+    }
 }
