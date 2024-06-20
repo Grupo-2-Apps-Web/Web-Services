@@ -1,3 +1,5 @@
 ﻿.idea/
-bin/
-obj/
+ACME.CargoApp.API/bin/
+ACME.CargoApp.API/obj/
+CargoApp.UnitTests/bin/
+CargoApp.UnitTests/obj/
