@@ -189,12 +189,11 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAll");
 // Add Authorization Middleware to Pipeline
 app.UseRequestAuthorization();
 
 app.UseHttpsRedirection();
-
-app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
