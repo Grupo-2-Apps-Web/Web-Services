@@ -716,3 +716,9 @@ C:\Users\User\Documents\GitHub\aplicaciones web\Web-Services\ACME.CargoApp.API\o
 C:\Users\User\Documents\GitHub\aplicaciones web\Web-Services\ACME.CargoApp.API\obj\Debug\net8.0\ACME.CargoApp.API.pdb
 C:\Users\User\Documents\GitHub\aplicaciones web\Web-Services\ACME.CargoApp.API\obj\Debug\net8.0\ACME.CargoApp.API.genruntimeconfig.cache
 C:\Users\User\Documents\GitHub\aplicaciones web\Web-Services\ACME.CargoApp.API\obj\Debug\net8.0\ref\ACME.CargoApp.API.dll
+C:\Users\ASUS\Documents\GitHub\Web-Services\ACME.CargoApp.API\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\ASUS\Documents\GitHub\Web-Services\ACME.CargoApp.API\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\ASUS\Documents\GitHub\Web-Services\ACME.CargoApp.API\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\ASUS\Documents\GitHub\Web-Services\ACME.CargoApp.API\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\ASUS\Documents\GitHub\Web-Services\ACME.CargoApp.API\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\ASUS\Documents\GitHub\Web-Services\ACME.CargoApp.API\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
