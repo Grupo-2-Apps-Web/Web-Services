@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ACME.CargoApp.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c624b8781659b604a109f1bd5e2190d74a6600c5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f1e31b6f1016c220373119099a9800152b8bec29")]
 [assembly: System.Reflection.AssemblyProductAttribute("ACME.CargoApp.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ACME.CargoApp.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

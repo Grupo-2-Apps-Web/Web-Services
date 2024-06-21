@@ -82,7 +82,7 @@ public class EntrepreneursController (IEntrepreneurQueryService entrepreneurQuer
         });
         return Ok(driverResources);
     }
-    
+
     [HttpGet("{entrepreneurId}/vehicles")]
     public async Task<IActionResult> GetVehicles([FromServices] ITripQueryService tripQueryService, int entrepreneurId)
     {
@@ -97,7 +97,8 @@ public class EntrepreneursController (IEntrepreneurQueryService entrepreneurQuer
             v.Volume
         });
         return Ok(vehicleResources);
-    
+    }
+
     [HttpGet("{entrepreneurId}/trips")]
     public async Task<IActionResult> GetTripsByEntrepreneurId([FromRoute] int entrepreneurId)
     {
