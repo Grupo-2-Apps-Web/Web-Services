@@ -47,7 +47,7 @@ builder.Services.AddCors(options =>
 });
 
 // Add Database Connection
-var connectionString = builder.Configuration.GetConnectionString("LocalConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Configure Database Context and Logging Levels
 builder.Services.AddDbContext<AppDbContext>(
@@ -73,7 +73,7 @@ builder.Services.AddSwaggerGen(
         c.SwaggerDoc("v1",new OpenApiInfo
             {
                 Title = "ACME.CargoApp.API",
-                Version = "v1",
+                Version = "v1.1.0",
                 Description = "ACME Cargo App API",
                 TermsOfService = new Uri("https://acme-cargo.com/tos"),
                 Contact = new OpenApiContact
