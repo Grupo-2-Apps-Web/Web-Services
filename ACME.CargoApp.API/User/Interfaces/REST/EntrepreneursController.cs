@@ -1,4 +1,6 @@
-﻿using ACME.CargoApp.API.User.Domain.Model.Queries;
+﻿using ACME.CargoApp.API.Registration.Domain.Model.Queries;
+using ACME.CargoApp.API.Registration.Domain.Services;
+using ACME.CargoApp.API.User.Domain.Model.Queries;
 using ACME.CargoApp.API.User.Domain.Services;
 using ACME.CargoApp.API.User.Interfaces.REST.Resources;
 using ACME.CargoApp.API.User.Interfaces.REST.Transform;
@@ -62,5 +64,20 @@ public class EntrepreneursController (IEntrepreneurQueryService entrepreneurQuer
             Console.WriteLine(e);
             return BadRequest(new { message = "An error occurred while updating the entrepreneur. " + e.Message });
         }
+    }
+
+    [HttpGet("{entrepreneurId}/drivers")]
+    public async Task<IActionResult> GetDrivers([FromServices] ITripQueryService tripQueryService, int entrepreneurId)
+    {
+        var drivers = await tripQueryService.Handle(new GetDriversByEntrepreneurIdQuery(entrepreneurId));
+        var driverResources = drivers.Select(d => new 
+        {
+            d.Id,
+            d.Name,
+            d.Dni,
+            d.License,
+            d.ContactNumber
+        });
+        return Ok(driverResources);
     }
 }

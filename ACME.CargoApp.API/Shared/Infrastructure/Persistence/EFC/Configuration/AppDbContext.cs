@@ -26,7 +26,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<Evidence> Evidences { get; set; }
     public DbSet<OngoingTrip> OngoingTrips { get; set; }
-    
+    public DbSet<Trip> Trips { get; set; }
     public DbSet<Alert> Alerts { get; set; }
 
 

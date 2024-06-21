@@ -32,7 +32,10 @@ public class TripQueryService(ITripRepository tripRepository, IEvidenceRepositor
     { 
         return await ongoingTripRepository.FindOngoingByTripIdAsync(query.TripId);
     }
-    
+    public async Task<IEnumerable<Driver>> Handle(GetDriversByEntrepreneurIdQuery query)
+    {
+        return await tripRepository.FindDriversByEntrepreneurIdAsync(query.EntrepreneurId);
+    }
     
 }
 
