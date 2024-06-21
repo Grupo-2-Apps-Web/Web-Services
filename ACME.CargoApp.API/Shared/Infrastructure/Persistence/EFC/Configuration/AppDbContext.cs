@@ -22,7 +22,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     public DbSet<Client> Clients { get; set; }
     public DbSet<Entrepreneur> Entrepreneurs { get; set; }
     public DbSet<User.Domain.Model.Entities.Configuration> Configurations { get; set; }
-
+    public DbSet<Trip> Trips { get; set; }
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<Evidence> Evidences { get; set; }
     public DbSet<OngoingTrip> OngoingTrips { get; set; }
@@ -187,7 +187,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         //Entrepreneur table
         builder.Entity<Entrepreneur>().HasKey(e => e.Id);
         builder.Entity<Entrepreneur>().Property(e => e.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Entity<Entrepreneur>().Property(e => e.LogoImage).IsRequired().HasMaxLength(100);
+        builder.Entity<Entrepreneur>().Property(e => e.LogoImage).IsRequired().HasColumnType("TEXT");
         
         //Entrepreneur table relationships
 

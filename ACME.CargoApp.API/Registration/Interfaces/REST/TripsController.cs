@@ -95,4 +95,13 @@ public class TripsController(ITripQueryService tripQueryService, ITripCommandSer
         return Ok(resource);
     }
     
+    [HttpGet("{tripId}/expenses")]
+    public async Task<IActionResult> GetExpensesByTripId([FromRoute] int tripId)
+    {
+        var expenses = await tripQueryService.Handle(new GetExpensesByTripIdQuery(tripId));
+        if (expenses == null) return NotFound();
+        var resources = ExpenseResourceFromEntityAssembler.ToResourceFromEntity(expenses);
+        return Ok(resources);
+    }
+    
 }

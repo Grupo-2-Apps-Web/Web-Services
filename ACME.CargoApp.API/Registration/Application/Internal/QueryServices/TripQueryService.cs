@@ -6,7 +6,7 @@ using ACME.CargoApp.API.Registration.Domain.Services;
 
 namespace ACME.CargoApp.API.Registration.Application.Internal.QueryServices;
 
-public class TripQueryService(ITripRepository tripRepository, IEvidenceRepository evidenceRepository, IAlertRepository alertRepository, IOngoingTripRepository ongoingTripRepository)
+public class TripQueryService(ITripRepository tripRepository, IEvidenceRepository evidenceRepository, IAlertRepository alertRepository, IOngoingTripRepository ongoingTripRepository, IExpenseRepository expenseRepository)
     : ITripQueryService
 {
     public async Task<Trip?> Handle(GetTripByIdQuery query)
@@ -22,7 +22,12 @@ public class TripQueryService(ITripRepository tripRepository, IEvidenceRepositor
     {
         return await evidenceRepository.FindByTripIdAsync(query.TripId);
     }
-
+    
+    public async Task<Expense?> Handle(GetExpensesByTripIdQuery query)
+    {
+        return await expenseRepository.FindByTripIdAsync(query.TripId);
+    }
+    
     public async Task<IEnumerable<Alert>> Handle(GetAlertsByTripIdQuery query)
     { 
         return await alertRepository.FindByTripIdAsync(query.TripId);
@@ -40,6 +45,19 @@ public class TripQueryService(ITripRepository tripRepository, IEvidenceRepositor
     {
         return await tripRepository.FindVehiclesByEntrepreneurIdAsync(query.EntrepreneurId);
     }
+    
+    public async Task<IEnumerable<Trip>> Handle(GetTripsByClientIdQuery query)
+    {
+        return await tripRepository.FindByClientIdAsync(query.ClientId);
+    }
+    
+    public async Task<IEnumerable<Trip>> Handle(GetTripsByEntrepreneurIdQuery query)
+    {
+        return await tripRepository.FindByEntrepreneurIdAsync(query.EntrepreneurId);
+    }
+    
+    
+    
     
 }
 

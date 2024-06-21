@@ -17,6 +17,10 @@ public class EntrepreneurCommandService(IEntrepreneurRepository entrepreneurRepo
         {
             throw new ArgumentException("UserId not found.");
         }
+        if (command.Subscription != "Basic" && command.Subscription != "Premium")
+        {
+            throw new ArgumentException("Invalid subscription type. Must be Basic or Premium");
+        }
         // Create the entrepreneur
         var entrepreneur = new Entrepreneur(command, user);
         try
@@ -34,10 +38,14 @@ public class EntrepreneurCommandService(IEntrepreneurRepository entrepreneurRepo
     
     public async Task<Entrepreneur?> Handle(UpdateEntrepreneurCommand command)
     {
-        var entrepreneur = await entrepreneurRepository.FindByIdAsync(command.UserId);
+        var entrepreneur = await entrepreneurRepository.FindByIdAsync(command.EntrepreneurId);
         if (entrepreneur == null)
         {
             throw new ArgumentException("Entrepreneur not found.");
+        }
+        if (command.Subscription != "Basic" && command.Subscription != "Premium")
+        {
+            throw new ArgumentException("Invalid subscription type. Must be Basic or Premium");
         }
         // Update the entrepreneur
         entrepreneur.Update(command);
