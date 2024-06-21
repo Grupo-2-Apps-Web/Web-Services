@@ -1,4 +1,5 @@
-﻿using ACME.CargoApp.API.User.Domain.Model.Entities;
+﻿using ACME.CargoApp.API.User.Domain.Model.Aggregates;
+using ACME.CargoApp.API.User.Domain.Model.Entities;
 using ACME.CargoApp.API.User.Domain.Model.Queries;
 using ACME.CargoApp.API.User.Domain.Repositories;
 using ACME.CargoApp.API.User.Domain.Services;
@@ -15,5 +16,10 @@ public class ClientQueryService(IClientRepository clientRepository) : IClientQue
     public async Task<Client?> Handle(GetClientByIdQuery query)
     {
         return await clientRepository.FindByIdAsync(query.ClientId);
+    }
+
+    public async Task<Client?> Handle(GetClientByUserIdQuery query)
+    {
+        return await clientRepository.FindByUserIdAsync(query.UserId);
     }
 }

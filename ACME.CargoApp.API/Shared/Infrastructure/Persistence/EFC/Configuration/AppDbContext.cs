@@ -2,6 +2,7 @@
 using ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
 using ACME.CargoApp.API.Registration.Domain.Model.Entities;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using ACME.CargoApp.API.User.Domain.Model.Aggregates;
 using ACME.CargoApp.API.User.Domain.Model.Entities;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -17,11 +18,15 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.AddCreatedUpdatedInterceptor();
     }
     
+    public DbSet<IAM.Domain.Model.Aggregates.User> Users { get; set; }
+    public DbSet<Client> Clients { get; set; }
+    public DbSet<Entrepreneur> Entrepreneurs { get; set; }
+    public DbSet<User.Domain.Model.Entities.Configuration> Configurations { get; set; }
+    public DbSet<Trip> Trips { get; set; }
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<Evidence> Evidences { get; set; }
-
     public DbSet<OngoingTrip> OngoingTrips { get; set; }
-
+    public DbSet<Alert> Alerts { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -157,33 +162,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasForeignKey<OngoingTrip>(ot => ot.TripId)
             .HasPrincipalKey<Trip>(t => t.Id);
         
-        // User Context
+        // IAM Bounded Context
         
-        //User Table
-        builder.Entity<User.Domain.Model.Aggregates.User>().HasKey(u => u.Id);
-        builder.Entity<User.Domain.Model.Aggregates.User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Entity<User.Domain.Model.Aggregates.User>().OwnsOne(u => u.UserData,
-            d =>
-            {
-                d.WithOwner().HasForeignKey("Id");
-                d.Property(u => u.Name).HasColumnName("Name");
-                d.Property(u => u.Phone).HasColumnName("Phone");
-                d.Property(u => u.Ruc).HasColumnName("Ruc");
-                d.Property(u => u.Address).HasColumnName("Address");
-            });
-        builder.Entity<User.Domain.Model.Aggregates.User>().OwnsOne(u => u.UserAuthentication,
-            a =>
-            {
-                a.WithOwner().HasForeignKey("Id");
-                a.Property(u => u.Email).HasColumnName("Email");
-                a.Property(u => u.Password).HasColumnName("Password");
-            });
-        builder.Entity<User.Domain.Model.Aggregates.User>().OwnsOne(u => u.SubscriptionPlan,
-            s =>
-            {
-                s.WithOwner().HasForeignKey("Id");
-                s.Property(u => u.Subscription).HasColumnName("Subscription");
-            });
+        builder.Entity<IAM.Domain.Model.Aggregates.User>().HasKey(u => u.Id);
+        builder.Entity<IAM.Domain.Model.Aggregates.User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<IAM.Domain.Model.Aggregates.User>().Property(u => u.Username).IsRequired();
+        builder.Entity<IAM.Domain.Model.Aggregates.User>().Property(u => u.PasswordHash).IsRequired(); 
+
+        //User Bounded Context
         
         //Client table
         builder.Entity<Client>().HasKey(c => c.Id);
@@ -194,13 +180,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasOne(c => c.User)
             .WithOne(u => u.Client)
             .HasForeignKey<Client>(c => c.UserId)
-            .HasPrincipalKey<User.Domain.Model.Aggregates.User>(u => u.Id);
+            .HasPrincipalKey<IAM.Domain.Model.Aggregates.User>(u => u.Id);
         
        
         //Entrepreneur table
         builder.Entity<Entrepreneur>().HasKey(e => e.Id);
         builder.Entity<Entrepreneur>().Property(e => e.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Entity<Entrepreneur>().Property(e => e.LogoImage).IsRequired().HasMaxLength(100);
+        builder.Entity<Entrepreneur>().Property(e => e.LogoImage).IsRequired().HasColumnType("TEXT");
         
         //Entrepreneur table relationships
 
@@ -208,7 +194,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             .HasOne(e => e.User)
             .WithOne(u => u.Entrepreneur)
             .HasForeignKey<Entrepreneur>(e => e.UserId)
-            .HasPrincipalKey<User.Domain.Model.Aggregates.User>(u => u.Id);
+            .HasPrincipalKey<IAM.Domain.Model.Aggregates.User>(u => u.Id);
         
         // Configuration table
         
@@ -218,15 +204,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
        builder.Entity<User.Domain.Model.Entities.Configuration>().Property(c => c.View).IsRequired().HasMaxLength(100);
        builder.Entity<User.Domain.Model.Entities.Configuration>().Property(c => c.AllowDataCollection).IsRequired();
        builder.Entity<User.Domain.Model.Entities.Configuration>().Property(c => c.UpdateDataSharing).IsRequired();
-        
        // Configuration table relationships
        
        builder.Entity<User.Domain.Model.Entities.Configuration>()
            .HasOne(c => c.User)
            .WithOne(u => u.Configuration)
            .HasForeignKey<User.Domain.Model.Entities.Configuration>(c => c.UserId)
-           .HasPrincipalKey<User.Domain.Model.Aggregates.User>(u => u.Id);
-        
+           .HasPrincipalKey<IAM.Domain.Model.Aggregates.User>(u => u.Id);
+       
         // Apply SnakeCase Naming Convention
         builder.UseSnakeCaseWithPluralizedTableNamingConvention();
     }

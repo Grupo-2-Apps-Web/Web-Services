@@ -16,4 +16,9 @@ public class ConfigurationQueryService(IConfigurationRepository configurationRep
     {
         return await configurationRepository.FindByIdAsync(query.ConfigurationId);
     }
+    
+    public async Task<Configuration?> Handle(GetConfigurationByUserIdQuery query)
+    {
+        return await configurationRepository.FindByUserIdAsync(query.UserId);
+    }
 }

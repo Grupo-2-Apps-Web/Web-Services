@@ -1,4 +1,5 @@
-﻿using ACME.CargoApp.API.User.Domain.Model.Aggregates;
+﻿using ACME.CargoApp.API.IAM.Domain.Model.Aggregates;
+using ACME.CargoApp.API.User.Domain.Model.Aggregates;
 using Moq;
 
 using ACME.CargoApp.API.User.Domain.Model.Entities;

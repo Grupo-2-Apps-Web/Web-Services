@@ -1,4 +1,5 @@
-﻿using ACME.CargoApp.API.User.Domain.Model.Entities;
+﻿using ACME.CargoApp.API.User.Domain.Model.Aggregates;
+using ACME.CargoApp.API.User.Domain.Model.Entities;
 using ACME.CargoApp.API.User.Domain.Model.Queries;
 using ACME.CargoApp.API.User.Domain.Repositories;
 using ACME.CargoApp.API.User.Domain.Services;
@@ -15,5 +16,10 @@ public class EntrepreneurQueryService(IEntrepreneurRepository entrepreneurReposi
     public async Task<Entrepreneur?> Handle(GetEntrepreneurByIdQuery query)
     {
         return await entrepreneurRepository.FindByIdAsync(query.EntrepreneurId);
+    }
+    
+    public async Task<Entrepreneur?> Handle(GetEntrepreneurByUserIdQuery query)
+    {
+        return await entrepreneurRepository.FindByUserIdAsync(query.UserId);
     }
 }

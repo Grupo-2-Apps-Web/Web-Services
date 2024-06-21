@@ -54,8 +54,6 @@ public class TripCommandService(ITripRepository tripRepository,
             return null;
         }
         
-        
-        
     }
     
 public async Task<Trip?> Handle(UpdateTripCommand command)

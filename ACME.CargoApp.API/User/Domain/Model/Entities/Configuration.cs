@@ -4,12 +4,12 @@ public class Configuration
 {
     public Configuration()
     {
-        User = new Aggregates.User();
+        User = new IAM.Domain.Model.Aggregates.User();
         AllowDataCollection = false;
         UpdateDataSharing = false;
     }
     
-    public Configuration(int userId, string theme, string view, bool allowDataCollection, bool updateDataSharing,  Aggregates.User user)
+    public Configuration(int userId, string theme, string view, bool allowDataCollection, bool updateDataSharing,  IAM.Domain.Model.Aggregates.User user)
     {
         UserId = userId;
         Theme = theme;
@@ -20,7 +20,7 @@ public class Configuration
     }
     
     public int Id { get; set; }
-    public Aggregates.User User { get; set; }
+    public IAM.Domain.Model.Aggregates.User User { get; set; }
     public int UserId { get; set; }
     public string Theme { get; set; }
     public string View { get; set; }

@@ -6,4 +6,5 @@ namespace ACME.CargoApp.API.Registration.Domain.Repositories;
 public interface IExpenseRepository : IBaseRepository<Expense>
 { 
     Task<Expense?> FindByTripIdAsync(int tripId);
+
 }
