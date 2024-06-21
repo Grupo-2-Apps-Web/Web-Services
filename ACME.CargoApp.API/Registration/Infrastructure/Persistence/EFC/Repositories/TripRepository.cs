@@ -23,4 +23,12 @@ public class TripRepository : BaseRepository<Trip>, ITripRepository
             .Distinct()
             .ToListAsync();
     }
+    public async Task<IEnumerable<Vehicle>> FindVehiclesByEntrepreneurIdAsync(int entrepreneurId)
+    {
+        return await _context.Trips
+            .Where(t => t.EntrepreneurId == entrepreneurId)
+            .Select(t => t.Vehicle)
+            .Distinct()
+            .ToListAsync();
+    }
 }

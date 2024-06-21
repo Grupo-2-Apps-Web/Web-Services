@@ -36,6 +36,10 @@ public class TripQueryService(ITripRepository tripRepository, IEvidenceRepositor
     {
         return await tripRepository.FindDriversByEntrepreneurIdAsync(query.EntrepreneurId);
     }
+    public async Task<IEnumerable<Vehicle>> Handle(GetVehiclesByEntrepreneurIdQuery query)
+    {
+        return await tripRepository.FindVehiclesByEntrepreneurIdAsync(query.EntrepreneurId);
+    }
     
 }
 

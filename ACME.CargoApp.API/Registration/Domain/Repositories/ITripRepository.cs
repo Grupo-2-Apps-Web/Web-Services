@@ -7,4 +7,5 @@ namespace ACME.CargoApp.API.Registration.Domain.Repositories;
 public interface ITripRepository: IBaseRepository<Trip>
 {
     Task<IEnumerable<Driver>> FindDriversByEntrepreneurIdAsync(int entrepreneurId);
+    Task<IEnumerable<Vehicle>> FindVehiclesByEntrepreneurIdAsync(int entrepreneurId);
 }

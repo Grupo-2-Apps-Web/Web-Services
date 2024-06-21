@@ -80,4 +80,20 @@ public class EntrepreneursController (IEntrepreneurQueryService entrepreneurQuer
         });
         return Ok(driverResources);
     }
+    
+    [HttpGet("{entrepreneurId}/vehicles")]
+    public async Task<IActionResult> GetVehicles([FromServices] ITripQueryService tripQueryService, int entrepreneurId)
+    {
+        var vehicles = await tripQueryService.Handle(new GetVehiclesByEntrepreneurIdQuery(entrepreneurId));
+        var vehicleResources = vehicles.Select(v => new
+        {
+            v.Id,
+            v.Model,
+            v.Plate,
+            v.TractorPlate,
+            v.MaxLoad,
+            v.Volume
+        });
+        return Ok(vehicleResources);
+    }
 }
