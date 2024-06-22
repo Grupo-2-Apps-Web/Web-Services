@@ -33,9 +33,9 @@ public class TripQueryService(ITripRepository tripRepository, IEvidenceRepositor
         return await alertRepository.FindByTripIdAsync(query.TripId);
     }
     
-    public async Task<IEnumerable<OngoingTrip>> Handle(GetOngGoingTripByIdQuery query)
+    public async Task<OngoingTrip?> Handle(GetOngGoingTripByIdQuery query)
     { 
-        return await ongoingTripRepository.FindOngoingByTripIdAsync(query.TripId);
+        return await ongoingTripRepository.FindByTripIdAsync(query.TripId);
     }
     public async Task<IEnumerable<Driver>> Handle(GetDriversByEntrepreneurIdQuery query)
     {

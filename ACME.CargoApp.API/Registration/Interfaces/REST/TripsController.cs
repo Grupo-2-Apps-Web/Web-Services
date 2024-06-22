@@ -72,18 +72,17 @@ public class TripsController(ITripQueryService tripQueryService, ITripCommandSer
     public async Task<IActionResult> GetAlertsByTripId([FromRoute] int tripId)
     {
         var alerts = await tripQueryService.Handle(new GetAlertsByTripIdQuery(tripId));
-        if (alerts == null) return NotFound();
         var resources = alerts.Select(AlertResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
     
-    [HttpGet("{tripId}/ongoingTrips")]
+    [HttpGet("{tripId}/ongoing-trips")]
     public async Task<IActionResult> GetOngoingByTripId([FromRoute] int tripId)
     {
-        var ongoingTrips = await tripQueryService.Handle(new GetOngGoingTripByIdQuery(tripId));
-        if (ongoingTrips == null) return NotFound();
-        var resources = ongoingTrips.Select(OngoingTripResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(resources);
+        var ongoingTrip = await tripQueryService.Handle(new GetOngGoingTripByIdQuery(tripId));
+        if (ongoingTrip == null) return NotFound();
+        var resource = OngoingTripResourceFromEntityAssembler.ToResourceFromEntity(ongoingTrip);
+        return Ok(resource);
     }
 
     [HttpGet("{tripId}/evidences")]

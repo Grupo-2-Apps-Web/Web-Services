@@ -151,9 +151,9 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         //Alerts Table Relationships
         builder.Entity<Alert>()
             .HasOne(a => a.Trip)
-            .WithOne(t => t.Alert)
-            .HasForeignKey<Alert>(a => a.TripId)
-            .HasPrincipalKey<Trip>(t => t.Id);
+            .WithMany(t => t.Alerts)
+            .HasForeignKey(a => a.TripId)
+            .HasPrincipalKey(t => t.Id);
         
         //OngoingTrips Table Relationships
         builder.Entity<OngoingTrip>()

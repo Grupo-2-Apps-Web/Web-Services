@@ -11,7 +11,7 @@ public interface ITripQueryService
     Task<Evidence?> Handle(GetEvidencesByTripIdQuery query);
     Task<Expense?> Handle(GetExpensesByTripIdQuery query);
     Task<IEnumerable<Alert>> Handle(GetAlertsByTripIdQuery query);
-    Task<IEnumerable<OngoingTrip>> Handle(GetOngGoingTripByIdQuery query);
+    Task<OngoingTrip?> Handle(GetOngGoingTripByIdQuery query);
     Task<IEnumerable<Driver>> Handle(GetDriversByEntrepreneurIdQuery query);
     Task<IEnumerable<Vehicle>> Handle(GetVehiclesByEntrepreneurIdQuery query);
     Task<IEnumerable<Trip>> Handle(GetTripsByClientIdQuery query);
