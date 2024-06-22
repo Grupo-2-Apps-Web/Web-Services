@@ -7,7 +7,13 @@ public static class CreateClientCommandFromResourceAssembler
 {
     public static CreateClientCommand ToCommandFromResource(CreateClientResource resource)
     {
-        return new CreateClientCommand(resource.UserId);
+        return new CreateClientCommand(
+            resource.Name,
+            resource.Phone,
+            resource.Ruc,
+            resource.Address,
+            resource.Subscription,
+            resource.UserId);
     }
     
 }

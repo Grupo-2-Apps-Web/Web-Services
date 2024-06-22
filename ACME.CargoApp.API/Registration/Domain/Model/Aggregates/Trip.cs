@@ -1,6 +1,7 @@
 ﻿using ACME.CargoApp.API.Registration.Domain.Model.Commands;
 using ACME.CargoApp.API.Registration.Domain.Model.Entities;
 using ACME.CargoApp.API.Registration.Domain.Model.ValueObjects;
+using ACME.CargoApp.API.User.Domain.Model.Aggregates;
 using ACME.CargoApp.API.User.Domain.Model.Entities;
 
 namespace ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
@@ -61,7 +62,7 @@ public class Trip
     
     public Expense Expense { get; internal set; }
     public Evidence Evidence { get; internal set; }
-    public Alert Alert { get; internal set; }
+    public ICollection<Alert> Alerts { get; internal set; }
     public OngoingTrip OngoingTrip { get; internal set; }
     
 }

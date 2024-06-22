@@ -21,6 +21,7 @@ public class TripsController(ITripQueryService tripQueryService, ITripCommandSer
             if (trip is null) return BadRequest();
             var resource = TripResourceFromEntityAssembler.ToResourceFromEntity(trip);
             return CreatedAtAction(nameof(GetTripById), new { tripId = resource.Id }, resource);
+            
         }
         catch (Exception e)
         {
@@ -56,6 +57,8 @@ public class TripsController(ITripQueryService tripQueryService, ITripCommandSer
         return Ok(resources);
     }
     
+    
+    
     [HttpGet("{tripId}")]
     public async Task<IActionResult> GetTripById([FromRoute] int tripId)
     {
@@ -63,6 +66,41 @@ public class TripsController(ITripQueryService tripQueryService, ITripCommandSer
         if (trip == null) return NotFound();
         var resource = TripResourceFromEntityAssembler.ToResourceFromEntity(trip);
         return Ok(resource);
+    }
+    
+    [HttpGet("{tripId}/alerts")]
+    public async Task<IActionResult> GetAlertsByTripId([FromRoute] int tripId)
+    {
+        var alerts = await tripQueryService.Handle(new GetAlertsByTripIdQuery(tripId));
+        var resources = alerts.Select(AlertResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(resources);
+    }
+    
+    [HttpGet("{tripId}/ongoing-trips")]
+    public async Task<IActionResult> GetOngoingByTripId([FromRoute] int tripId)
+    {
+        var ongoingTrip = await tripQueryService.Handle(new GetOngGoingTripByIdQuery(tripId));
+        if (ongoingTrip == null) return NotFound();
+        var resource = OngoingTripResourceFromEntityAssembler.ToResourceFromEntity(ongoingTrip);
+        return Ok(resource);
+    }
+
+    [HttpGet("{tripId}/evidences")]
+    public async Task<IActionResult> GetEvidencesByTripId([FromRoute] int tripId)
+    {
+        var evidence = await tripQueryService.Handle(new GetEvidencesByTripIdQuery(tripId));
+        if (evidence == null) return NotFound();
+        var resource = EvidenceResourceFromEntityAssembler.ToResourceFromEntity(evidence);
+        return Ok(resource);
+    }
+    
+    [HttpGet("{tripId}/expenses")]
+    public async Task<IActionResult> GetExpensesByTripId([FromRoute] int tripId)
+    {
+        var expenses = await tripQueryService.Handle(new GetExpensesByTripIdQuery(tripId));
+        if (expenses == null) return NotFound();
+        var resources = ExpenseResourceFromEntityAssembler.ToResourceFromEntity(expenses);
+        return Ok(resources);
     }
     
 }
