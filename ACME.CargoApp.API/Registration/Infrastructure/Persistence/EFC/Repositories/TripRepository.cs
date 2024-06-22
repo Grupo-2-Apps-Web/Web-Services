@@ -3,6 +3,7 @@ using ACME.CargoApp.API.Registration.Domain.Model.Entities;
 using ACME.CargoApp.API.Registration.Domain.Repositories;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ACME.CargoApp.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using ACME.CargoApp.API.User.Domain.Model.Aggregates;
 using Microsoft.EntityFrameworkCore;
 
 namespace ACME.CargoApp.API.Registration.Infrastructure.Persistence.EFC.Repositories;
@@ -41,5 +42,14 @@ public class TripRepository : BaseRepository<Trip>, ITripRepository
     public async Task<IEnumerable<Trip>> FindByEntrepreneurIdAsync(int entrepreneurId)
     {
         return await _context.Trips.Where(t => t.EntrepreneurId == entrepreneurId).ToListAsync();
+    }
+    
+    public async Task<IEnumerable<Client>> FindClientsByEntrepreneurIdAsync(int entrepreneurId)
+    {
+        return await _context.Trips
+            .Where(t => t.EntrepreneurId == entrepreneurId)
+            .Select(t => t.Client)
+            .Distinct()
+            .ToListAsync();
     }
 }

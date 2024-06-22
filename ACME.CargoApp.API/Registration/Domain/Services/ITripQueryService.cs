@@ -1,6 +1,8 @@
 ﻿using ACME.CargoApp.API.Registration.Domain.Model.Aggregates;
 using ACME.CargoApp.API.Registration.Domain.Model.Entities;
 using ACME.CargoApp.API.Registration.Domain.Model.Queries;
+using ACME.CargoApp.API.User.Domain.Model.Aggregates;
+using ACME.CargoApp.API.User.Domain.Model.Queries;
 
 namespace ACME.CargoApp.API.Registration.Domain.Services;
 
@@ -16,4 +18,5 @@ public interface ITripQueryService
     Task<IEnumerable<Vehicle>> Handle(GetVehiclesByEntrepreneurIdQuery query);
     Task<IEnumerable<Trip>> Handle(GetTripsByClientIdQuery query);
     Task<IEnumerable<Trip>> Handle(GetTripsByEntrepreneurIdQuery query);
+    Task<IEnumerable<Client>> Handle(GetClientsByEntrepreneurId query);
 }

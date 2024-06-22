@@ -106,4 +106,12 @@ public class EntrepreneursController (IEntrepreneurQueryService entrepreneurQuer
         var resources = trips.Select(TripResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
+    
+    [HttpGet("{entrepreneurId}/clients")]
+    public async Task<IActionResult> GetClientsByEntrepreneurId([FromRoute] int entrepreneurId)
+    {
+        var clients = await tripQueryService.Handle(new GetClientsByEntrepreneurId(entrepreneurId));
+        var resources = clients.Select(ClientResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(resources);
+    }
 }

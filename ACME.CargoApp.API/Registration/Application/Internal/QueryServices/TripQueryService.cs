@@ -3,6 +3,8 @@ using ACME.CargoApp.API.Registration.Domain.Model.Entities;
 using ACME.CargoApp.API.Registration.Domain.Model.Queries;
 using ACME.CargoApp.API.Registration.Domain.Repositories;
 using ACME.CargoApp.API.Registration.Domain.Services;
+using ACME.CargoApp.API.User.Domain.Model.Aggregates;
+using ACME.CargoApp.API.User.Domain.Model.Queries;
 
 namespace ACME.CargoApp.API.Registration.Application.Internal.QueryServices;
 
@@ -56,7 +58,10 @@ public class TripQueryService(ITripRepository tripRepository, IEvidenceRepositor
         return await tripRepository.FindByEntrepreneurIdAsync(query.EntrepreneurId);
     }
     
-    
+    public async Task<IEnumerable<Client>> Handle(GetClientsByEntrepreneurId query)
+    {
+        return await tripRepository.FindClientsByEntrepreneurIdAsync(query.EntrepreneurId);
+    }
     
     
 }
